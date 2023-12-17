@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<div layout:fragment="content">
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="/post-service/list">질문 & 답변</a></li>
+        </ol>
+        <h2 th:text="${postDetail.title}"></h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Blog Single Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+
+          <div class="col-lg entries">
+
+            <!-- 질문 내역 -->
+            <article class="entry entry-single">
+              <h2 class="entry-title" th:text="${postDetail.title}"></h2>
+              <div class="entry-meta">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i>
+                    <p class="post-member" th:text="${postDetail.nickName}"></p></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i>
+                    <p class="post-member" th:text="${#temporals.format(postDetail.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></p>
+                  </li>
+
+                </ul>
+              </div>
+              <div class="entry-content">
+                <div th:if="${postDetail.memberId != null and member != null and postDetail.memberId.equals(member.memberId)}"
+                     class="alert alert-primary alert-dismissible fade show" role="alert">
+                  <i class="bi bi-info-circle me-1"></i>
+                  질문이 모두 해결되었다면, 질문해결을 눌러 질문의 상태를 바꿔보세요!
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <p th:utext="${postDetail.content}"></p>
+              </div>
+
+              <!-- 해당 글을 작성한 유저만 수정/삭제 가능 -->
+              <div class="postDetail-buttons d-flex justify-content-center">
+                <!-- 수정하기 버튼 -->
+                <a th:if="${postDetail.memberId != null and member != null and postDetail.memberId.equals(member.memberId)}"
+                   th:href="${@environment.getProperty('prefix.url')} + @{{qnaId}/edit(qnaId=${postDetail.qnaId})}"
+                   class="btn btn-outline-primary mr-2" th:text="수정하기"></a>
+
+                <!-- 삭제하기 버튼 -->
+                <button th:if="${postDetail.memberId != null and member != null and postDetail.memberId.equals(member.memberId)}"
+                        class="btn btn-outline-danger mx-2" id="post-delete-btn" type="button">삭제하기</button>
+
+                <!-- 질문해결 버튼 (조건에 따라 표시) -->
+                <div th:if="${#lists.size(comments) >= 1}" class="btn-group">
+                  <button th:if="${postDetail.memberId != null and member != null and postDetail.memberId.equals(member.memberId)}"
+                          class="btn btn-outline-primary ml-2" id="post-complete-btn" type="button">질문해결</button>
+                </div>
+
+                <!-- 목록으로 버튼 -->
+                <a th:href="@{${@environment.getProperty('prefix.url')} + 'list'}"
+                   class="btn btn-outline-primary mx-2" th:text="목록으로"></a>
+              </div>
+            </article>
+
+            <!-- itemId에 해당하는 강의 정보 -->
+            <div th:if="${itemId != null}"
+                 class="blog-author d-flex align-items-center">
+              <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/blog/blog-author.jpg'"
+                  class="float-left" alt="">
+              <div>
+                <h3>
+                  <a th:href="${@environment.getProperty('prefix.url')} + @{/item-service/lecture/{itemId}/detail(itemId=${postDetail.itemId})}"
+                     th:text="${postDetail.itemTitle}"></a>
+                </h3>
+              </div>
+            </div><!-- End blog author bio -->
+
+            <!-- Comment List -->
+            <div class="blog-comments">
+
+              <!-- comment가 0개일 경우 -->
+              <div class="comment-Eq-0" th:if="${comments.size() == 0}">
+                <h5>
+                  <i class="bi bi-chat-left-text"></i><br>
+                  답변을 기다리고 있는 질문이에요.<br>
+                  첫번째 답변을 남겨보세요!
+                </h5>
+              </div>
+
+              <div th:if="${comments.size() > 0}" th:each="comment : ${comments}"
+                   th:id="'comment-' + ${comment.commentId}" class="comment">
+                <div class="d-flex">
+                  <div class="comment-img">
+                    <h2><i class="bi bi-person-circle"></i></h2>
+                  </div>
+                  <div>
+                    <h5 th:text="${comment.nickName}"></h5>
+
+                    <!-- 로그인한 유저만 답글달기 버튼 활성화 -->
+                    <div th:if="${member != null}">
+                      <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                         data-bs-target="#commentModal"
+                         th:data-comment-id="${comment.commentId}">답글 달기</a>
+                    </div>
+                    <p th:text="${#temporals.format(comment.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></p>
+                    <p th:text="${comment.content}"></p>
+
+                    <!-- 댓글 수정, 삭제 작성자만 가능 -->
+                    <div th:if="${comment.nickName != null and
+                                (member != null and comment.nickName.equals(member.nickName))}">
+                      <button type="button"
+                              class="btn btn-sm btn-outline-primary"
+                              data-bs-toggle="modal"
+                              data-bs-target="#comment-edit-modal"
+                              th:data-bs-comment-id="${comment.commentId}"
+                              th:data-bs-content="${comment.content}">수정
+                      </button>
+                      <button type="button" class="btn btn-outline-danger btn-sm delete-btn"
+                              th:data-comment-id="${comment.commentId}">삭제
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 댓글에 대한 답글 표시 -->
+                <div th:if="${comment.children.size() > 0}" th:each="reply : ${comment.children}"
+                     th:id="'comment-reply-' + ${reply.commentId}" class="comment comment-reply">
+                  <div class="d-flex">
+                    <div class="comment-img">
+                      <h2><i class="bi bi-person-circle"></i></h2>
+                    </div>
+                    <div>
+                      <h5 th:text="${reply.nickName}"></h5>
+                      <p th:text="${#temporals.format(reply.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></p>
+                      <p th:text="${reply.content}"></p>
+
+                      <!-- 댓글 수정, 삭제 작성자만 가능 -->
+                      <div th:if="${reply.nickName != null and
+                                (member != null and reply.nickName.equals(member.nickName))}">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#comment-edit-modal"
+                                th:data-bs-comment-id="${reply.commentId}"
+                                th:data-bs-content="${reply.content}">수정
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm delete-btn"
+                                th:data-comment-id="${reply.commentId}">삭제
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Comment Create button -->
+              <div th:if="${member != null}">
+                <a class="btn btn-outline-primary" data-bs-toggle="modal"
+                   data-bs-target="#commentModal" th:text="답변남기기"></a>
+              </div>
+
+              <!-- comment create Modal -->
+              <div class="modal fade" id="commentModal" tabindex="-1"
+                   aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel"
+                          th:text="${postDetail.title  + '에 답변 달기'}"></h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="post" class="comment-form">
+                        <input type="hidden" name="parentId" id="modalParentId">
+                        <input type="hidden" name="qnaId" th:value="${postDetail.qnaId}">
+                        <div class="row">
+                          <div class="col form-group">
+                                <textarea name="content" cols="20" rows="10"
+                                          class="form-control" placeholder="답변을 작성해보세요."></textarea>
+                          </div>
+                        </div>
+                      </form>
+                      <button id="submit" name="submit" class="btn btn-primary float-end"
+                              onclick="submitComment()" style="margin-top: 10px;">등록
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End comment modal -->
+
+              <div class="modal fade" id="comment-edit-modal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel2">답변 수정</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- 댓글 수정 폼-->
+                      <form>
+                        <div class="mb-3">
+                          <textarea type="text" class="form-control form-control-sm" rows="10"
+                                    id="edit-comment-content"></textarea>
+                        </div>
+                        <input type="hidden" id="edit-comment-id">
+
+                        <button type="button" class="btn btn-primary float-end"
+                                id="comment-update-btn">수정
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div><!-- End comment List -->
+
+          </div><!-- End blog comments -->
+        </div><!-- End blog entries list -->
+      </div>
+
+      <script th:inline="javascript">
+        var postUrl = [[${@environment.getProperty('prefix.url')}]];
+
+        // function completeQuestion() {
+        //   var qnaId = [[${postDetail.qnaId}]];
+        //
+        //   // AJAX로 PUT 요청 보내기
+        //   $.ajax({
+        //     url: postUrl + qnaId + '/complete',
+        //     type: 'PUT',
+        //     success: function (response) {
+        //       alert('해당 질문이 해결되었습니다.');
+        //
+        //       var qnaStatus = [[${postDetail.qnaStatus}]];
+        //       qnaStatus = 'COMPLETE';
+        //
+        //       // 업데이트된 상태를 사용하여 버튼을 갱신
+        //       if (qnaStatus === 'COMPLETE') {
+        //         $('#post-complete-btn').hide();
+        //       } else {
+        //         $('#post-complete-btn').show();
+        //       }
+        //
+        //       window.location.reload();
+        //     },
+        //     error: function (error) {
+        //       alert('다시 시도해주세요.', error);
+        //     }
+        //   });
+        // }
+
+        // 게시글 삭제될 때 실행
+        $(document).ready(function () {
+          $("#post-delete-btn").click(function () {
+            var qnaId = [[${postDetail.qnaId}]];
+
+            // AJAX로 DELETE 요청 보내기
+            $.ajax({
+              url: postUrl + qnaId + '/delete',
+              type: 'DELETE',
+              success: function (response) {
+                alert("정말 해당 게시글을 삭제하시겠어요?");
+                alert('해당 질문이 삭제되었습니다.');
+                window.location.href = postUrl + 'list';
+              },
+              error: function (error) {
+                alert('삭제에 실패했습니다.', error);
+              }
+            });
+          });
+        });
+
+        // 댓글 삭제될 때 실행
+        $(document).ready(function () {
+          $(".delete-btn").click(function () {
+            var commentId = $(this).data('comment-id');
+
+            $.ajax({
+              url: postUrl + 'comment/' + commentId + '/delete',
+              type: 'DELETE',
+              success: function (response) {
+                alert("정말 해당 댓글을 삭제하시겠어요?");
+                alert('해당 댓글이 삭제되었습니다.');
+                window.location.reload();
+              },
+              error: function (error) {
+                alert('댓글 삭제에 실패했습니다.', error);
+              }
+            });
+          });
+        });
+
+        // 게시글의 qnaStatus 변경
+        $(document).ready(function () {
+          $("#post-complete-btn").click(function () {
+            var qnaId = [[${postDetail.qnaId}]];
+
+            // AJAX로 PUT 요청 보내기
+            $.ajax({
+              url: postUrl + qnaId + '/complete',
+              type: 'PUT',
+              success: function (response) {
+                alert('해당 질문이 해결되었습니다.');
+                window.location.reload();
+              },
+              error: function (error) {
+                alert('다시 시도해주세요.', error);
+              }
+            });
+          });
+        });
+
+        // comment create modal
+        $('#commentModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget); // 클릭된 버튼 가져오기
+          var parentId = button.data('comment-id'); // data-comment-id 속성에서 commentId 가져오기
+          console.log(parentId);
+          $('#modalParentId').val(parentId); // hidden input에 commentId 설정
+        });
+
+        // comment create을 위한 함수
+        function submitComment() {
+          const formElement = document.querySelector('.comment-form');
+          const formData = new FormData(formElement);
+
+          fetch(postUrl + 'comment/create', {
+            method: 'POST',
+            body: formData,
+          })
+          .then(response => {
+            window.location.reload(); // 현재 페이지에서 새로고침
+            return response.json();
+          })
+          .then(data => {
+            console.log('Comment created:', data);
+          })
+          .catch(error => {
+            console.error('Error creating comment:', error);
+          });
+        }
+
+        // comment modify 처리
+        {
+          // 모달 요소 선택
+          const commentEditModal = document.querySelector("#comment-edit-modal");
+
+          // 모달 이벤트 감지
+          commentEditModal.addEventListener("show.bs.modal", function (event) {
+            // 트리거 버튼 선택
+            const triggerBtn = event.relatedTarget;
+
+            // 데이터 가져오기
+            const commentId = triggerBtn.getAttribute("data-bs-comment-id");
+            const content = triggerBtn.getAttribute("data-bs-content");
+
+            // 데이터를 반영
+            document.querySelector("#edit-comment-id").value = commentId;
+            document.querySelector("#edit-comment-content").value = content;
+          });
+        }
+
+        {
+          // 수정 완료 버튼
+          const commentUpdateBtn = document.querySelector("#comment-update-btn");
+          // 클릭 이벤트 처리
+          commentUpdateBtn.addEventListener("click", function () {
+            // 수정 댓글 객체 생성
+            const commentId = document.querySelector("#edit-comment-id").value;
+            const content = document.querySelector("#edit-comment-content").value;
+            const comment = {
+              commentId: commentId,
+              content: content
+            };
+
+            // 수정 REST API 호출 - fetch()
+            const url = postUrl + 'comment/' + commentId + '/edit';
+            fetch(url, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(comment)
+            })
+            .then(response => {
+              if (response.ok) {
+                // 성공적으로 수정된 경우
+                alert("댓글이 수정되었습니다.");
+                window.location.reload();
+              } else {
+                alert("댓글 수정에 실패했습니다.");
+              }
+              return response.json();
+            })
+            .catch(error => {
+              console.error('Error updating comment:', error);
+            });
+          });
+        }
+      </script>
+
+    </section>
+  </main>
+</div>
+
+<script>
+
+
+</script>
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>COVISCON - 속이 편안한 코딩 공작소 </title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/img/favicon.png'" rel="icon">
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/img/apple-touch-icon.png'" rel="apple-touch-icon">
+
+    <!-- include libraries(jQuery, bootstrap) -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <link
+        href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"
+        rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+    <!-- include summernote css/js-->
+    <link
+        href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css"
+        rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+
+    <!-- Bootstrap Validator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/css/style.css'" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <form id="articleForm" enctype="multipart/form-data">
+        <input type="hidden" name="qnaId" th:value="${responsePostEdit.qnaId}">
+        <br style="clear: both">
+        <div class="form-group">
+            <input type="text" class="form-control" id="postTitle" name="title"
+                   th:value="${responsePostEdit.title}" required>
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" id="summernote_edit" name="content"
+                    maxlength="140" rows="7" th:utext="${responsePostEdit.content}"></textarea>
+        </div>
+        <input type="submit" id="submit" name="submit" class="btn btn-primary pull-right" value="수정" />
+        <button type="button" id="cancelButton" class="btn btn-default pull-right">취소</button>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    const formElement = document.querySelector('#articleForm');
+    let postUrl = [[${@environment.getProperty('prefix.url')}]];
+
+    var tempDiv = document.createElement('div');
+
+    $('#cancelButton').on('click', function() {
+        alert("앗! 수정 중인 글이 있어요. 정말 이동하시겠어요?");
+        location.href = postUrl + 'list';
+    });
+
+    formElement.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(formElement);
+
+        const response = await fetch(postUrl + 'edit', {
+            method: 'PUT',
+            body: formData
+        });
+
+        if (response.ok) {
+            alert("수정이 완료되었습니다.");
+            location.href = postUrl + "list";
+        } else {
+            throw new Error(`${response.status} ${response.statusText}`);
+        }
+    });
+
+    $(document).ready(function() {
+        $('#summernote_edit').summernote({
+            height : 500,
+            minHeight : null,
+            maxHeight : null,
+            focus : true,
+            callbacks: {
+                onImageUpload: function(files, editor, welEditable) {
+                    for (var i = 0; i < files.length; i++) {
+                        sendImage(files[i], this);
+                    }
+                }
+            }
+        });
+    });
+
+    function sendImage(file, el) {
+        var form_data = new FormData();
+        form_data.append('multipartFile', file);
+
+        $.ajax({
+            data: form_data,
+            type: "POST",
+            url: postUrl + 'image',
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (url) {
+                console.log(url);
+
+                var image = $('<img>').attr('src', url).css('width', '50%');
+                $(el).summernote('pasteHTML', image[0].outerHTML);
+            },
+            error: function (error) {
+                console.error('Image upload error:', error);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

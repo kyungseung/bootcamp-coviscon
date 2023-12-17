@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width" />
+  <title>Example</title>
+  <!-- include libraries(jQuery, bootstrap) -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+  <link
+      href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"
+      rel="stylesheet">
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+  <!-- include summernote css/js-->
+  <link
+      href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css"
+      rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+
+  <!--  &lt;!&ndash; include libraries(jQuery, bootstrap) &ndash;&gt;-->
+  <!--  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+  <!--  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />-->
+  <!--  <script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>-->
+
+  <!--  &lt;!&ndash; include summernote css/js&ndash;&gt;-->
+  <!--  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">-->
+  <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>-->
+</head>
+<body>
+<form id="articleForm" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="itemId" th:value="${itemId}">
+  <br style="clear: both">
+  <div class="form-group">
+    <input type="text" class="form-control" id="postTitle" name="title"
+           placeholder="제목에 핵심내용을 요약해보세요." required>
+  </div>
+  <div class="form-group">
+			<textarea class="form-control" id="summernote_create" name="content"
+                placeholder="- 학습 관련 질문을 남겨주세요. 상세히 작성하면 더 좋아요!&#13;&#10;
+                             - 코드가 포함된 질문은 이미지 보다 'code', 'codeblock' 이용하시면 더 정확하게 답변 받을 수 있어요."
+                maxlength="140" rows="7"></textarea>
+  </div>
+  <input type="submit" id="submit" name="submit"
+         class="btn btn-primary pull-right" value="등록" />
+</form>
+
+<script th:inline="javascript">
+  const formElement = document.querySelector('form');
+  const resultElement = document.querySelector('div');
+
+  var postUrl = [[${@environment.getProperty('prefix.url')}]];
+
+  formElement.addEventListener('submit', async (event) => {
+
+    event.preventDefault();
+
+    const formData = new FormData(formElement);
+
+    const response = await fetch(postUrl + 'create', {
+      method: 'POST',
+      body: formData
+    })
+
+    if (response.ok) {
+      const result = await response.text();
+      resultElement.textContent = result;
+
+      alert("업로드가 완료되었습니다.");
+      location.href = postUrl + "list";
+
+    } else {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+  });
+
+  $(document).ready(function() {
+    $('#summernote_create').summernote({
+      height : 300,
+      minHeight : null,
+      maxHeight : null,
+      focus : true,
+
+      // summernote 에디터의 콜백을 사용하여 이미지 업로드 기능 구현
+      callbacks : {
+        onImageUpload : function(files, editor, welEditable) {
+          for (var i = 0; i < files.length; i++) {
+            sendImage(files[i], this);
+          }
+        }
+      }
+    });
+  });
+
+  function sendImage(file, el) {
+    var form_data = new FormData();
+    form_data.append('multipartFile', file);
+
+    $.ajax({
+      data : form_data,
+      type : "POST",
+      url : postUrl + 'image',
+      cache : false,
+      contentType : false,
+      enctype : 'multipart/form-data',
+      processData : false,
+
+      success: function(url) {
+        console.log('url : ' + url);
+
+        var image = $('<img>').attr('src', url).css('width', '50%');
+        $(el).summernote('pasteHTML', image[0].outerHTML);
+      }
+    });
+  }
+</script>
+</body>
+</html>

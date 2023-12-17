@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>COVISCON - 속이 편안한 코딩 공작소 </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link th:href="${@environment.getProperty('prefix.url')} + 'assets/img/favicon.png'" rel="icon">
+  <link th:href="${@environment.getProperty('prefix.url')} + 'assets/img/apple-touch-icon.png'" rel="apple-touch-icon">
+
+  <!-- include libraries(jQuery, bootstrap) -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+  <link
+      href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"
+      rel="stylesheet">
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+  <!-- include summernote css/js-->
+  <link
+      href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css"
+      rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+
+  <!-- Bootstrap Validator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
+  <link th:href="${@environment.getProperty('prefix.url')} + 'assets/css/style.css'" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div class="alert alert-success post-alert" role="alert">
+    - 학습 관련 질문을 남겨주세요. 상세히 작성하면 더 좋아요!<br/>
+    - 코드가 포함된 질문은 이미지 보다 'code', 'codeblock' 이용하시면 더 정확하게 답변 받을 수 있어요.
+  </div>
+
+  <form id="articleForm" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="itemId" th:value="${itemId}">
+    <br style="clear: both">
+    <div class="form-group">
+      <input type="text" class="form-control" id="title" name="title"
+             placeholder="제목에 핵심내용을 요약해보세요." data-error="제목을 입력해주세요." required>
+      <div class="help-block with-errors"></div>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" id="summernote_create" name="content"
+                  maxlength="140" rows="7" required></textarea>
+    </div>
+    <input type="submit" id="submit" name="submit" class="btn btn-primary pull-right" value="등록" />
+    <button type="button" id="cancelButton" class="btn btn-default pull-right">취소</button>
+  </form>
+</div>
+
+<script th:inline="javascript">
+  const formElement = document.querySelector('form');
+  const resultElement = document.querySelector('div');
+
+  var postUrl = [[${@environment.getProperty('prefix.url')}]];
+
+  $('#cancelButton').on('click', function() {
+    alert("앗! 작성 중인 글이 있어요. 정말 이동하시겠어요?");
+    location.href = postUrl + 'list';
+  });
+
+  // formElement.addEventListener('submit', async (event) => {
+  //   event.preventDefault();
+  //
+  //   const formData = new FormData(formElement);
+  //
+  //   const response = await fetch(postUrl + 'create', {
+  //     method: 'POST',
+  //     body: formData
+  //   })
+  //
+  //   if (response.ok) {
+  //     const result = await response.text();
+  //     resultElement.textContent = result;
+  //
+  //     alert("업로드가 완료되었습니다.");
+  //     location.href = postUrl + "list";
+  //
+  //   } else {
+  //     throw new Error(`${response.status} ${response.statusText}`);
+  //   }
+  // });
+
+  $(document).ready(function() {
+    $('#articleForm').validator();
+
+    $('#summernote_create').summernote({
+      height : 500,
+      minHeight : null,
+      maxHeight : null,
+      focus : true,
+
+      // summernote 에디터의 콜백을 사용하여 이미지 업로드 기능 구현
+      callbacks : {
+        onImageUpload : function(files, editor, welEditable) {
+          for (var i = 0; i < files.length; i++) {
+            sendImage(files[i], this);
+          }
+        }
+      }
+    });
+  });
+
+  // Validator 성공 이벤트 리스너
+  $('#articleForm').on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+      // 폼이 유효하지 않으면 추가 작업을 수행할 수 있습니다.
+    } else {
+      const formData = new FormData(formElement);
+
+      fetch(postUrl + 'create', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+      })
+      .then(result => {
+        resultElement.textContent = result;
+        alert("업로드가 완료되었습니다.");
+        location.href = postUrl + "list";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  });
+
+  function sendImage(file, el) {
+    var form_data = new FormData();
+    form_data.append('multipartFile', file);
+
+    $.ajax({
+      data : form_data,
+      type : "POST",
+      url : postUrl + 'image',
+      cache : false,
+      contentType : false,
+      enctype : 'multipart/form-data',
+      processData : false,
+
+      success: function(url) {
+        console.log('url : ' + url);
+
+        var image = $('<img>').attr('src', url).css('width', '50%');
+        $(el).summernote('pasteHTML', image[0].outerHTML);
+      }
+    });
+  }
+</script>
+</body>
+</html>

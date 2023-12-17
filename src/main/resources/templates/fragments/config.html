@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="configFragment">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=divice-width, initial-scale=1.0">
+
+    <!-- Favicons -->
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/img/favicon.png'" rel="icon">
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/img/apple-touch-icon.png'" rel="apple-touch-icon">
+
+    <!-- 공통 CSS -->
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/vendor/aos/aos.css'" rel="stylesheet">
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/vendor/bootstrap/css/bootstrap.min.css'" rel="stylesheet">
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/vendor/bootstrap-icons/bootstrap-icons.css'" rel="stylesheet">
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/vendor/glightbox/css/glightbox.min.css'" rel="stylesheet">
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/vendor/remixicon/remixicon.css'" rel="stylesheet">
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/vendor/swiper/swiper-bundle.min.css'" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+    <link th:href="${@environment.getProperty('prefix.url')} + 'assets/css/style.css'" rel="stylesheet">
+
+</th:block>
+</html>

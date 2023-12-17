@@ -1,0 +1,10 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+  $(document).ready(function () {
+    let message = "[[${error}]]";
+    if (message !== "") {
+      alert(message);
+      history.back();
+    }
+  })
+</script>
