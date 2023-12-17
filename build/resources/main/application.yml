@@ -1,0 +1,19 @@
+# eureka server port set
+server:
+  port: 8761
+
+# spring application name set
+spring:
+  application:
+    name: discovery-service
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888
+      name: # 설정 파일
+
+# eureka server set
+# eureka client option 은 default 가 true 이기 때문에 false 로 변경
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
