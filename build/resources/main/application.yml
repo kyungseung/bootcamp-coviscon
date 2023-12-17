@@ -1,0 +1,34 @@
+# server port set
+server:
+  port: 0
+
+# eureka client set
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    # eureka server location
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+# log set
+logging:
+  level:
+    com.coviscon.memberservice: debug
+
+# actuator set
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans, info, busrefresh, metrics, prometheus
+
+
+redirect:
+  url: 'redirect:http://127.0.0.1:8000/member-service/'
+
+prefix:
+  url: 'http://127.0.0.1:8000/member-service/'
+

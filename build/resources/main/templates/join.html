@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<!--<style>-->
+<!--    .fieldError {-->
+<!--        border-color: red;-->
+<!--        color: red;-->
+<!--    }-->
+<!--</style>-->
+
+<div layout:fragment="content">
+    <!-- join form -->
+    <section id="join" class="join d-flex align-items-center">
+        <div class="container">
+            <div class="input-form-backgroud row">
+                <div class="input-form col-md-12 mx-auto">
+                    <h4 class="fw-bolder text-center">회원가입</h4>
+                    <p class="text-center">COVSCON에서 다양한 성장의 기회를 얻으세요</p>
+
+                    <form class="validation-form" th:action="${@environment.getProperty('prefix.url')} + 'auth/join'" method="post">
+                        <div class="mb-4">
+                            <label for="email">이메일</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   placeholder="you@example.com" required>
+<!--                                   th:field="*{member.getEmail()}"-->
+<!--                                   th:class="${#fields.hasErrors('email')}-->
+<!--                                   ? 'form-control fieldError' : 'form-control'">-->
+                            <div class="invalid-feedback">
+                                이메일을 입력해주세요.
+                            </div>
+                        </div>
+
+                        <!--                    <div class="mb-4">-->
+                        <!--                        <label for="username">아이디</label>-->
+                        <!--                        <input type="text" class="form-control" id="username" name="username" required>-->
+                        <!--                        <div class="invalid-feedback">-->
+                        <!--                            아이디를 입력해주세요.-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+
+                        <div class="mb-4">
+                            <label for="password">비밀번호</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+<!--                                   th:field="*{member.getPassword()}"-->
+<!--                                   th:class="${#fields.hasErrors('password')}-->
+<!--                                   ? 'form-control fieldError' : 'form-control'">-->
+                            <div class="invalid-feedback">
+                                비밀번호를 입력해주세요.
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="identifier">닉네임</label>
+                            <input type="text" class="form-control" id="identifier" name="nickName" required>
+<!--                                   th:field="*{member.getNickName()}"-->
+<!--                                   th:class="${#fields.hasErrors('nickName')}-->
+<!--                                   ? 'form-control fieldError' : 'form-control'">-->
+                            <div class="invalid-feedback">
+                                닉네임을 입력해주세요.
+                            </div>
+                        </div>
+
+                        <span class="selectBox">
+                        <select name="role" class="category">
+                            <option value="">희망 권한</option>
+                            <option value="STUDENT">STUDENT</option>
+                            <option value="TEACHER">TEACHER</option>
+                        </select>
+                    </span>
+
+
+                        <!--                    <div class="mb-4">-->
+                        <!--                        <label for="email">이메일</label>-->
+                        <!--                        <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>-->
+                        <!--                        <div class="invalid-feedback">-->
+                        <!--                            이메일을 입력해주세요.-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+
+                        <!--                    <div class="mb-4">-->
+                        <!--                        <label for="tel">전화번호</label>-->
+                        <!--                        <input type="tel" class="form-control" id="tel" name="tel" placeholder="010-1234-5678" required>-->
+                        <!--                        <div class="invalid-feedback">-->
+                        <!--                            전화번호를 입력해주세요.-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+
+                        <!--                    <div class="mb-4">-->
+                        <!--                        <label for="city">주소</label>-->
+                        <!--                        <input type="text" class="form-control" id="city" name="city" placeholder="서울특별시 강남구" required>-->
+                        <!--                        <div class="invalid-feedback">-->
+                        <!--                            주소를 입력해주세요.-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+
+                        <!--                    <div class="mb-4">-->
+                        <!--                        <label for="street">상세주소</label>-->
+                        <!--                        <input type="text" class="form-control" id="street" name="street" placeholder="상세주소를 입력해주세요.">-->
+                        <!--                    </div>-->
+
+                        <!--                    <div class="mb-4">-->
+                        <!--                        <label for="zipcode">우편번호</label>-->
+                        <!--                        <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="우편번호를 입력해주세요.">-->
+                        <!--                    </div>-->
+
+                        <hr class="mb-4">
+
+                        <div class="mb-4 custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="aggrement" required>
+                            <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-lg btn-primary" type="submit">가입 완료</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+</body>
+</html>

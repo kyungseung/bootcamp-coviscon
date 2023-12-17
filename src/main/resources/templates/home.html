@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+
+<div layout:fragment="content">
+    <main>
+        <!-- ======= Hero Section ======= -->
+        <section id="hero" class="hero d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 d-flex flex-column justify-content-center">
+                        <h1 data-aos="fade-up">코딩강의와 멘토링을 한번에</h1>
+                        <h2 data-aos="fade-up" data-aos-delay="400">속이 편안해지는 코드를 가르쳐드립니다</h2>
+                        <div data-aos="fade-up" data-aos-delay="600">
+                            <div class="text-center text-lg-start">
+                                <a href="#about"
+                                   class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Get Started</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+                        <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/hero-img.png'" class="img-fluid" alt="메인이미지">
+                    </div>
+                </div>
+            </div>
+
+        </section><!-- End Hero -->
+
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about">
+
+            <div class="container" data-aos="fade-up">
+                <div class="row gx-0">
+
+                    <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                        <div class="content">
+                            <h3>Who We Are</h3>
+                            <h2>Expedita voluptas omnis cupiditate totam eveniet nobis sint iste. Dolores est repellat corrupti
+                                reprehenderit.</h2>
+                            <p>
+                                Quisquam vel ut sint cum eos hic dolores aperiam. Sed deserunt et. Inventore et et dolor consequatur
+                                itaque ut voluptate sed et. Magnam nam ipsum tenetur suscipit voluptatum nam et est corrupti.
+                            </p>
+                            <div class="text-center text-lg-start">
+                                <a href="#"
+                                   class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Read More</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+                        <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/about.png'" class="img-fluid" alt="about">
+                    </div>
+
+                </div>
+            </div>
+
+        </section><!-- End About Section -->
+
+        <!-- ======= Values Section ======= -->
+        <section id="values" class="values">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Our Values</h2>
+                    <p>Odit est perspiciatis laborum et dicta</p>
+                </header>
+
+                <div class="row">
+
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="box">
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/values-1.png'" class="img-fluid" alt="">
+                            <h3>Ad cupiditate sed est odio</h3>
+                            <p>Eum ad dolor et. Autem aut fugiat debitis voluptatem consequuntur sit. Et veritatis id.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
+                        <div class="box">
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/values-2.png'" class="img-fluid" alt="">
+                            <h3>Voluptatem voluptatum alias</h3>
+                            <p>Repudiandae amet nihil natus in distinctio suscipit id. Doloremque ducimus ea sit non.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="600">
+                        <div class="box">
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/values-3.png'" class="img-fluid" alt="">
+                            <h3>Fugit cupiditate alias nobis.</h3>
+                            <p>Quam rem vitae est autem molestias explicabo debitis sint. Vero aliquid quidem commodi.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- End Values Section -->
+
+        <!-- ======= Counts Section ======= -->
+        <section id="counts" class="counts">
+            <div class="container" data-aos="fade-up">
+
+                <div class="row gy-4">
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-people"></i>
+                            <div>
+                <span data-purecounter-start="0" data-purecounter-end="1230623" data-purecounter-duration="1"
+                      class="counterWithCommas"></span>
+                                <p>수강생</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-emoji-smile" style="color: #ee6c20;"></i>
+                            <div>
+                <span data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="1"
+                      class="counterWithPercent" id="counter1"></span>
+                                <p>만족도</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-journal-richtext" style="color: #15be56;"></i>
+                            <div>
+                <span data-purecounter-start="0" data-purecounter-end="97" data-purecounter-duration="1"
+                      class="counterWithPercent" id="counter2"></span>
+                                <p>수강 완료율</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-building" style="color: #bb0852;"></i>
+                            <div>
+                <span data-purecounter-start="0" data-purecounter-end="91" data-purecounter-duration="1"
+                      class="counterWithPercent" id="counter3"></span>
+                                <p>수강생 평균 취업률</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section><!-- End Counts Section -->
+
+        <!-- ======= Features Section ======= -->
+        <section id="features" class="features">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Features</h2>
+                    <p>Laboriosam et omnis fuga quis dolor direda fara</p>
+                </header>
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/features.png'" class="img-fluid" alt="">
+                    </div>
+
+                    <div class="col-lg-6 mt-5 mt-lg-0 d-flex">
+                        <div class="row align-self-center gy-4">
+
+                            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="200">
+                                <div class="feature-box d-flex align-items-center">
+                                    <i class="bi bi-check"></i>
+                                    <h3>Eos aspernatur rem</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
+                                <div class="feature-box d-flex align-items-center">
+                                    <i class="bi bi-check"></i>
+                                    <h3>Facilis neque ipsa</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="400">
+                                <div class="feature-box d-flex align-items-center">
+                                    <i class="bi bi-check"></i>
+                                    <h3>Volup amet voluptas</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
+                                <div class="feature-box d-flex align-items-center">
+                                    <i class="bi bi-check"></i>
+                                    <h3>Rerum omnis sint</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="600">
+                                <div class="feature-box d-flex align-items-center">
+                                    <i class="bi bi-check"></i>
+                                    <h3>Alias possimus</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="700">
+                                <div class="feature-box d-flex align-items-center">
+                                    <i class="bi bi-check"></i>
+                                    <h3>Repellendus mollitia</h3>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div> <!-- / row -->
+
+                <!-- Feature Icons -->
+                <div class="row feature-icons" data-aos="fade-up">
+                    <h3>Ratione mollitia eos ab laudantium rerum beatae quo</h3>
+
+                    <div class="row">
+
+                        <div class="col-xl-4 text-center" data-aos="fade-right" data-aos-delay="100">
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/features-3.png'" class="img-fluid p-4" alt="">
+                        </div>
+
+                        <div class="col-xl-8 d-flex content">
+                            <div class="row align-self-center gy-4">
+
+                                <div class="col-md-6 icon-box" data-aos="fade-up">
+                                    <i class="ri-line-chart-line"></i>
+                                    <div>
+                                        <h4>Corporis voluptates sit</h4>
+                                        <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+                                    <i class="ri-stack-line"></i>
+                                    <div>
+                                        <h4>Ullamco laboris nisi</h4>
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+                                    <i class="ri-brush-4-line"></i>
+                                    <div>
+                                        <h4>Labore consequatur</h4>
+                                        <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+                                    <i class="ri-magic-line"></i>
+                                    <div>
+                                        <h4>Beatae veritatis</h4>
+                                        <p>Expedita veritatis consequuntur nihil tempore laudantium vitae denat pacta</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+                                    <i class="ri-command-line"></i>
+                                    <div>
+                                        <h4>Molestiae dolor</h4>
+                                        <p>Et fuga et deserunt et enim. Dolorem architecto ratione tensa raptor marte</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+                                    <i class="ri-radar-line"></i>
+                                    <div>
+                                        <h4>Explicabo consectetur</h4>
+                                        <p>Est autem dicta beatae suscipit. Sint veritatis et sit quasi ab aut inventore</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div><!-- End Feature Icons -->
+
+            </div>
+
+        </section><!-- End Features Section -->
+
+        <!-- ======= Services Section ======= -->
+        <section id="services" class="services">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Services</h2>
+                    <p>Veritatis et dolores facere numquam et praesentium</p>
+                </header>
+
+                <div class="row gy-4">
+
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-box blue">
+                            <i class="ri-discuss-line icon"></i>
+                            <h3>Nesciunt Mete</h3>
+                            <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis
+                                tempore et consequatur.</p>
+                            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-box orange">
+                            <i class="ri-discuss-line icon"></i>
+                            <h3>Eosle Commodi</h3>
+                            <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut
+                                nesciunt dolorem.</p>
+                            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="service-box green">
+                            <i class="ri-discuss-line icon"></i>
+                            <h3>Ledo Markt</h3>
+                            <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci
+                                eos earum corrupti.</p>
+                            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                        <div class="service-box red">
+                            <i class="ri-discuss-line icon"></i>
+                            <h3>Asperiores Commodi</h3>
+                            <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident
+                                adipisci neque.</p>
+                            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                        <div class="service-box purple">
+                            <i class="ri-discuss-line icon"></i>
+                            <h3>Velit Doloremque.</h3>
+                            <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem
+                                alias eius labore.</p>
+                            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+                        <div class="service-box pink">
+                            <i class="ri-discuss-line icon"></i>
+                            <h3>Dolori Architecto</h3>
+                            <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti
+                                recusandae ducimus enim.</p>
+                            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- End Services Section -->
+
+        <!-- ======= Pricing Section ======= -->
+        <section id="pricing" class="pricing">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Pricing</h2>
+                    <p>Check our Pricing</p>
+                </header>
+
+                <div class="row gy-4" data-aos="fade-left">
+
+                    <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="box">
+                            <h3 style="color: #07d5c0;">Free Plan</h3>
+                            <div class="price"><sup>$</sup>0<span> / mo</span></div>
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/pricing-free.png'" class="img-fluid" alt="">
+                            <ul>
+                                <li>Aida dere</li>
+                                <li>Nec feugiat nisl</li>
+                                <li>Nulla at volutpat dola</li>
+                                <li class="na">Pharetra massa</li>
+                                <li class="na">Massa ultricies mi</li>
+                            </ul>
+                            <a href="#" class="btn-buy">Buy Now</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="box">
+                            <span class="featured">Featured</span>
+                            <h3 style="color: #65c600;">Starter Plan</h3>
+                            <div class="price"><sup>$</sup>19<span> / mo</span></div>
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/pricing-starter.png'" class="img-fluid" alt="">
+                            <ul>
+                                <li>Aida dere</li>
+                                <li>Nec feugiat nisl</li>
+                                <li>Nulla at volutpat dola</li>
+                                <li>Pharetra massa</li>
+                                <li class="na">Massa ultricies mi</li>
+                            </ul>
+                            <a href="#" class="btn-buy">Buy Now</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="box">
+                            <h3 style="color: #ff901c;">Business Plan</h3>
+                            <div class="price"><sup>$</sup>29<span> / mo</span></div>
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/pricing-business.png'" class="img-fluid" alt="">
+                            <ul>
+                                <li>Aida dere</li>
+                                <li>Nec feugiat nisl</li>
+                                <li>Nulla at volutpat dola</li>
+                                <li>Pharetra massa</li>
+                                <li>Massa ultricies mi</li>
+                            </ul>
+                            <a href="#" class="btn-buy">Buy Now</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="box">
+                            <h3 style="color: #ff0071;">Ultimate Plan</h3>
+                            <div class="price"><sup>$</sup>49<span> / mo</span></div>
+                            <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/pricing-ultimate.png'" class="img-fluid" alt="">
+                            <ul>
+                                <li>Aida dere</li>
+                                <li>Nec feugiat nisl</li>
+                                <li>Nulla at volutpat dola</li>
+                                <li>Pharetra massa</li>
+                                <li>Massa ultricies mi</li>
+                            </ul>
+                            <a href="#" class="btn-buy">Buy Now</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- End Pricing Section -->
+
+        <!-- ======= F.A.Q Section ======= -->
+        <section id="faq" class="faq">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>F.A.Q</h2>
+                    <p>자주 묻는 질문</p>
+                </header>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- F.A.Q List 1-->
+                        <div class="accordion accordion-flush" id="faqlist1">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq-content-1">
+                                        강의를 듣다가 궁금증이 생기면 어떻게 해야 하나요?
+                                    </button>
+                                </h2>
+                                <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                    <div class="accordion-body">
+                                        질문게시판을 통해 커뮤니티에 궁금증을 남기고, 다른 수강생들과 함께 해결해보세요. <br>
+                                        커뮤니티 정책을 참고하여 커뮤니티를 200% 활용해 보세요.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq-content-2">
+                                        결제 취소 시 실제 환불 처리까지 얼마나 걸리나요?
+                                    </button>
+                                </h2>
+                                <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                    <div class="accordion-body">
+                                        결제 취소 요청 시, 영업일 1일 이내 해당 카드사에 취소 신청하고 있어요. <br>
+                                        환불까지 카드사에 따라 평균 3~5일 정도 소요됩니다.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq-content-3">
+                                        내일배움카드 결제가 가능한가요?
+                                    </button>
+                                </h2>
+                                <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                    <div class="accordion-body">
+                                        현재 내일배움카드 결제는 지원되지 않아요.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <!-- F.A.Q List 2-->
+                        <div class="accordion accordion-flush" id="faqlist2">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq2-content-1">
+                                        여러 사람이 한 계정을 사용해도 되나요?
+                                    </button>
+                                </h2>
+                                <div id="faq2-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
+                                    <div class="accordion-body">
+                                        COVISCON은 1인 1계정이 원칙입니다. <br>
+                                        이를 위반할 시 불이익이 있을 수 있으니 양해 부탁드려요.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq2-content-2">
+                                        비밀번호를 변경하고 싶어요.
+                                    </button>
+                                </h2>
+                                <div id="faq2-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
+                                    <div class="accordion-body">
+                                        우측 상단의 마이페이지 > 설정 > 비밀번호 변경을 통해 변경이 가능해요.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq2-content-3">
+                                        수강한 강의 내용을 블로그나 개인 사이트에 올려도 되나요?
+                                    </button>
+                                </h2>
+                                <div id="faq2-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
+                                    <div class="accordion-body">
+                                        COVISCON의 모든 강의는,
+                                        무단 배포 및 가공하는 행위, 캡쳐 및 녹화하여 공유하는 행위, 무단으로 판매하는 행위 등 일체의 저작권 침해 행위를 금지합니다. <br>
+                                        일반적으로 강의를 수강하시고 강의 후기를 작성하시면서 강의 일부를 인용하거나 간략하게 요약하여 언급하는 것은 저작권법상 공정한 이용에 해당될 수 있습니다. <br>
+                                        (※ 강의 출처 표기 필수!) <br>
+                                        요약한 내용의 창작성이 주가 되어야 하며, 블로그 내용의 대부분이 인용한 내용 (강의 내용)으로 구성되었을 시 이는 저작권 침해 행위로 보고 법적인 제재를 받으실 수 있습니다.
+                                        <br>
+                                        ※ 그 외 강의 자료 중 일부 저작권 상관없이 이용 가능한 경우, 상세페이지에서 해당 내용을 확인하실 수 있습니다. <br><br>
+
+                                        출처: 한국저작권위원회에서 발췌하였습니다.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- End F.A.Q Section -->
+
+        <!-- ======= Team Section ======= -->
+        <section id="team" class="team">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>강사진</h2>
+                    <p>COVISON의 최고의 강사진을 소개합니다</p>
+                </header>
+
+                <div class="row gy-4">
+
+                    <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member">
+                            <div class="member-img">
+                                <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/team/team-1.png'" class="img-fluid" alt="Spring 강사">
+                                <div class="social">
+                                    <a href="#"><i class="bi bi-twitter"></i></a>
+                                    <a href="#"><i class="bi bi-facebook"></i></a>
+                                    <a href="#"><i class="bi bi-instagram"></i></a>
+                                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h4>수파덕</h4>
+                                <span>Spring</span>
+                                <p>생산성은 늘리고, 개발해야 할 코드는 줄이는 진짜 노하우를 보여드리겠습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                        <div class="member">
+                            <div class="member-img">
+                                <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/team/team-2.png'" class="img-fluid" alt="Java 강사">
+                                <div class="social">
+                                    <a href="#"><i class="bi bi-twitter"></i></a>
+                                    <a href="#"><i class="bi bi-facebook"></i></a>
+                                    <a href="#"><i class="bi bi-instagram"></i></a>
+                                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h4>이누오</h4>
+                                <span>Java</span>
+                                <p>기초부터 차근차근 정석대로 가르치겠습니다. 비전공자 학생들도 쉽게 이해할 수 있도록 재미있는 강의를 만들겠습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+                        <div class="member">
+                            <div class="member-img">
+                                <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/team/team-3.png'" class="img-fluid" alt="Python 강사">
+                                <div class="social">
+                                    <a href="#"><i class="bi bi-twitter"></i></a>
+                                    <a href="#"><i class="bi bi-facebook"></i></a>
+                                    <a href="#"><i class="bi bi-instagram"></i></a>
+                                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h4>문마릴</h4>
+                                <span>Python</span>
+                                <p>망설이지 말고 달려나가라 전설의 막이 열린다. 자, 마음을 담아서 나아가라 정조준하라. 뛰어라 파이썬 꿈의 저편으로-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+                        <div class="member">
+                            <div class="member-img">
+                                <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/team/team-4.png'" class="img-fluid" alt="C++ 강사">
+                                <div class="social">
+                                    <a href="#"><i class="bi bi-twitter"></i></a>
+                                    <a href="#"><i class="bi bi-facebook"></i></a>
+                                    <a href="#"><i class="bi bi-instagram"></i></a>
+                                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h4>임판짱</h4>
+                                <span>C++</span>
+                                <p>강의 틀어놓고 지금 뭐하는거죠? 실망입니다. 그럴 시간에 강의나 들으세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section><!-- End Team Section -->
+
+        <!-- ======= Clients Section ======= -->
+        <section id="clients" class="clients">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Our Clients</h2>
+                    <p>꾸준히 좋은 성과를 내고있습니다</p>
+                </header>
+
+                <div class="clients-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-1.png'" class="img-fluid" alt="당근"></div>
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-2.png'" class="img-fluid" alt="현대"></div>
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-3.png'" class="img-fluid" alt="카카오"></div>
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-4.png'" class="img-fluid" alt="구글"></div>
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-5.png'" class="img-fluid" alt="아마존"></div>
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-6.png'" class="img-fluid" alt="넷플릭스"></div>
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-7.png'" class="img-fluid" alt="네이버"></div>
+                        <div class="swiper-slide"><img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/clients/client-8.png'" class="img-fluid" alt="우아한형제들"></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+        </section><!-- End Clients Section -->
+
+        <!-- ======= Testimonials Section ======= -->
+        <section id="testimonials" class="testimonials">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>수강평</h2>
+                    <p>🔥실시간으로 올라오는 진짜 수강평!🔥</p>
+                </header>
+
+                <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="200">
+                    <div class="swiper-wrapper">
+
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    코딩과 상관없는 전공으로 대학교 졸업 후 뒤늦게 코딩을 배우게 됐습니다.
+                                    이 강의를 보자마자 이거다 싶어서 바로 결제했는데 후회없는 선택이었습니다.
+                                    이번 년도 들어서 돈 주고 결제한 것 중에 최고의 선택입니다!
+                                </p>
+                                <div class="profile mt-auto">
+                                    <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/testimonials/testimonials-1.png'" class="testimonial-img" alt="리뷰1">
+                                    <h3>김OO</h3>
+                                    <h4>Java</h4>
+                                </div>
+                            </div>
+                        </div><!-- End testimonial item -->
+
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    아는 내용이지만 복습 차원에서 점검할 수 있었고, 몰랐던 내용을 4~ 5가지 정도 획득했습니다.
+                                    기초부터 탄탄하게 알려주셔서 너무 좋고,
+                                    향후 개발 업무에서 어떻게 활용될 수 있는지까지 알려주는 강의는 아마 국내에서 유일하지 않을까 싶습니다.
+                                </p>
+                                <div class="profile mt-auto">
+                                    <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/testimonials/testimonials-2.png'" class="testimonial-img" alt="리뷰2">
+                                    <h3>이OO</h3>
+                                    <h4>Python</h4>
+                                </div>
+                            </div>
+                        </div><!-- End testimonial item -->
+
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    Spring Web MVC의 전체적인 설계 의도를 파악하기 너무 좋은 강의였습니다.
+                                    특히 설계 의도를 이해시켜주기 위해서 앞단에서부터 차근차근 코딩을 통해서 직접 알아가는 과정이 진짜 신기했습니다.
+                                </p>
+                                <div class="profile mt-auto">
+                                    <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/testimonials/testimonials-3.png'" class="testimonial-img" alt="리뷰3">
+                                    <h3>박OO</h3>
+                                    <h4>Spring</h4>
+                                </div>
+                            </div>
+                        </div><!-- End testimonial item -->
+
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    강의 내용이 배울것들이 많았고, 상세하게 알려주시고
+                                    따라하다보면 자연스럽게 왜 이렇게 했는지에 대한 의미를 알게 되었습니다.
+                                    강의를 통해서 평소에 궁금했던것들도 많이 배우게 되었습니다!!
+                                    다음 강의가 많이 기대됩니다.
+                                    감사합니다.
+                                </p>
+                                <div class="profile mt-auto">
+                                    <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/testimonials/testimonials-4.png'" class="testimonial-img" alt="리뷰4">
+                                    <h3>임OO</h3>
+                                    <h4>Spring</h4>
+                                </div>
+                            </div>
+                        </div><!-- End testimonial item -->
+
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <p>
+                                    확실한 실력상승보장과 가려운곳 긁어주는 강의
+                                    여전히 잘하는 건 아니지만 예전보다 조금씩이라도 나아지고 있다는 생각이 들고,
+                                    좋은 강좌 만들어주셔서 감사합니다.
+                                </p>
+                                <div class="profile mt-auto">
+                                    <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/testimonials/testimonials-5.png'" class="testimonial-img" alt="리뷰5">
+                                    <h3>문OO</h3>
+                                    <h4>C++</h4>
+                                </div>
+                            </div>
+                        </div><!-- End testimonial item -->
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section><!-- End Testimonials Section -->
+    </main><!-- End #main -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+</div>
+
+</html>
