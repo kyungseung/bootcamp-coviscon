@@ -35,94 +35,6 @@ public class ItemApiController {
     @Value("${cloud.aws.s3.bucket}")
     private String videoBucket;
 
-    @GetMapping("/saved/session")
-    public ResponseEntity<String> savedSession(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        MemberResponseDto memberResponseDto = new MemberResponseDto();
-        memberResponseDto.setMemberId(101L);
-        memberResponseDto.setEmail("test@test.com");
-        memberResponseDto.setNickName("test");
-        memberResponseDto.setRole("ROLE_TEACHER");
-
-        session.setAttribute("member", memberResponseDto);
-        return ResponseEntity.ok("");
-    }
-
-    @GetMapping("/redis")
-    public ResponseEntity<?> getSession() {
-        String memberId = (String) session.getAttribute("memberId");
-        String email = (String) session.getAttribute("email");
-        String nickName = (String) session.getAttribute("nickName");
-        String role = (String) session.getAttribute("role");
-
-        System.out.println("memberId = " + memberId);
-        System.out.println("email = " + email);
-        System.out.println("nickName = " + nickName);
-        System.out.println("role = " + role);
-
-        return ResponseEntity.status(HttpStatus.OK).body(memberId);
-    }
-
-    /** 강의 리스트 조회(api 리턴), 주석처리 **/
-//    @GetMapping("/teacher/lectures")
-//    public List<ResponseLectureDetail> searchTeacherLectures(
-//            @RequestParam(defaultValue = "NONE") String category,
-//            @RequestParam(defaultValue = "") String search,
-//            @RequestParam(defaultValue = "") String keyword,
-//            @PageableDefault(size = 5) Pageable pageable
-//    ) {
-//        Page<ResponseLectureList> lectureList = itemService.searchLectureList(category, search, keyword, pageable);
-//        int totalPage = itemService.lectureTotalPage(category, search, keyword, pageable);
-//
-//        int startPage = 0;
-//        int endPage = totalPage-1;
-//
-//        ResponseLecturePage response = new ResponseLecturePage(lectureList, startPage, endPage);
-//
-//        return ResponseEntity.ok().body(response);
-//    }
-
-    /** 강의 상세페이지 내용 조회(api 리턴), 주석 처리 **/
-//    @GetMapping("/lecture/{id}/detail")
-//    public ResponseEntity<?> goLectureDetail (@PathVariable Long id) {
-//        ResponseLectureDetail lectureDetail = itemService.findLectureDetail(id);
-//
-//        return ResponseEntity.ok().body(lectureDetail);
-//    }
-
-    /** 강사 강의 리스트 조회(api 리턴), member-service로 전달 **/
-//    @GetMapping("/teacher/lecture/list")
-//    public ResponseEntity<List<ResponseLectureList>> findTeacherLecture (@RequestParam(defaultValue = "") String search,
-//                                      @RequestParam(defaultValue = "") String keyword,
-//                                      Model model,
-//                                      HttpServletRequest request) {
-//
-//        HttpSession session = request.getSession();
-//        MemberResponseDto member = (MemberResponseDto) session.getAttribute("member");
-//
-//        List<ResponseLectureList> lectureList = itemService.searchTeacherLectures(member, search, keyword);
-//
-//        return ResponseEntity.ok().body(lectureList);
-//    }
-
-    /**
-     * 강의 동영상 업로드(tus 주석처리)
-     **/
-//    @CrossOrigin(origins = "*")
-//    @RequestMapping(value = {"/tus/upload", "/tus/upload/**"})
-//    public ResponseEntity<String> tusUpload(HttpServletRequest request, HttpServletResponse response) {
-//        log.info("tusUpload test");
-//        return ResponseEntity.ok(itemFileService.process(request, response));
-//    }
-
-    /** 강의 수정용 페이지 이동 **/
-//    @GetMapping("/lecture/{itemId}/modify")
-//    public ResponseEntity<ResponseLectureDetail> searchLecture(@PathVariable Long itemId) {
-//        ResponseLectureDetail lectureDetail = itemService.findLectureDetail(itemId);
-//
-//        return ResponseEntity.ok().body(lectureDetail);
-//    }
-
     /**
      * 강의 등록 후 멤버를 거쳐 강의 리스트 or 상세 페이지로 이동
      **/
@@ -176,25 +88,6 @@ public class ItemApiController {
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
-    /** 책 검색 조회 **/
-//    @PostMapping("/book/list")
-//    public ResponseEntity<?> searchBookList (
-//            @RequestParam(defaultValue = "NONE") String category,
-//            @RequestParam(defaultValue = "") String search,
-//            @RequestParam(defaultValue = "") String keyword,
-//            @PageableDefault(size = 5) Pageable pageable
-//    ) {
-//        Page<ResponseBookList> bookList = itemService.searchBookList(category, search, keyword, pageable);
-//        int totalPage = itemService.bookTotalPage(category, search, keyword, pageable);
-//
-//        int startPage = 0;
-//        int endPage = totalPage - 1;
-//
-//        ResponseBookPage response = new ResponseBookPage(bookList, startPage, endPage);
-//
-//        return ResponseEntity.ok().body(response);
-//    }
-
     /**
      * 강의 삭제
      **/
@@ -224,15 +117,6 @@ public class ItemApiController {
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
-    /** post-service에 id, title 제공(kafka), 엔티티 post랑 합치면서 필요없어짐 **/
-//    @GetMapping("/{id}/post")
-//    public ResponseEntity<?> sendToPost (@PathVariable Long id) {
-//        ResponseLectureDetail response = itemService.findLectureDetail(id);
-//
-//        kafkaProducer.send("item-lecture-topic", response);
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
 
     /**
      * order-service에 id, title, price, teacherName 제공(kafka)

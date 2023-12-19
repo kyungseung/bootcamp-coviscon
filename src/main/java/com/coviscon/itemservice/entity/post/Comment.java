@@ -42,11 +42,6 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private List<Comment> children = new ArrayList<>();
 
-    // == 댓글 수정 ==
-//    public void update(CommentRequestDto commentRequestDto) {
-//        this.content = commentRequestDto.getContent();
-//    }
-
     // 부모 댓글 수정
     public void updateParent(Comment parent){
         this.parent = parent;

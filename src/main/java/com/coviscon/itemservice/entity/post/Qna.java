@@ -30,8 +30,6 @@ public class Qna extends BaseTimeEntity {
     @Column(nullable = false, length = 100000)
     private String content; // 게시글 내용
 
-//    @Column(nullable = false)
-//    private Long teacherId; // teacher id [primary key]
     private Long memberId; // member id [primary key]
     private String nickName; // member nickName
 
@@ -48,21 +46,8 @@ public class Qna extends BaseTimeEntity {
     @OneToMany(mappedBy = "qna")
     private List<Image> images = new ArrayList<>();
 
-
-    // == 생성 메서드 --
-//    public static Qna addPost(RequestPostCreate requestPostCreate) {
-//        return Qna.builder()
-//                .itemId(100L)
-//                .teacherId(101L)
-//                .title(requestPostCreate.getTitle())
-//                .content(requestPostCreate.getContent())
-////                .imageFileName(requestPostCreate.getImageFileName())
-//                .qnaStatus(requestPostCreate.getQnaStatus())
-//                .build();
-//    }
-
     public static Qna addQna(String title, String content, Long memberId, String nickName, Item item) {
-        Qna qna = Qna.builder()
+        return Qna.builder()
             .title(title)
             .content(content)
             .memberId(memberId)
@@ -70,8 +55,5 @@ public class Qna extends BaseTimeEntity {
             .qnaStatus(QnaStatus.INCOMPLETE)
             .lecture((Lecture) item)
             .build();
-
-
-        return qna;
     }
 }

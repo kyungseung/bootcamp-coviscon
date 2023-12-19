@@ -191,47 +191,6 @@ public class ItemController {
 //        return "redirect:/item-service/lecture/list"; // 아 포기
     }
 
-    /** 새로운 강의 등록, 테스트 용 **/
-//    @PostMapping("/items/lecture")
-//    public ResponseEntity<?> createNewLecture(
-//            @ModelAttribute RequestCreateLecture requestCreateLecture,
-//            @RequestParam("filename") MultipartFile file) throws IOException {
-//
-//        String fileContent = file.getOriginalFilename();
-//        requestCreateLecture.setRealVideoName(fileContent);
-//        requestCreateLecture.setThumbnailFileName(fileContent);
-//
-//        String savedFilename = UUID.randomUUID().toString();
-//        requestCreateLecture.setSubVideoName(savedFilename);
-//        itemService.createNewLecture(requestCreateLecture);
-//
-//        log.info("file size : {}", file.getSize());
-//        log.info("file byte : {}", file.getBytes());
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(URI.create("/item-service/lecture/list"));
-//        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-//    }
-
-//    /** 강의 수정 **/
-//    @PostMapping("/lecture/{itemId}/modify")
-//    public ResponseEntity<?> updateLecture(
-//            @PathVariable Long itemId,
-//            @ModelAttribute RequestCreateLecture requestCreateLecture,
-//            @RequestParam("filename") MultipartFile file) {
-//
-//        String fileContent = file.getOriginalFilename();
-//        requestCreateLecture.setRealVideoName(fileContent);
-//        requestCreateLecture.setThumbnailFileName(fileContent);
-//
-//        String savedFilename = UUID.randomUUID().toString();
-//        requestCreateLecture.setSubVideoName(savedFilename);
-//        itemService.updateLecture(requestCreateLecture, itemId);
-//
-//        return ResponseEntity.ok().build();
-//    }
-
-
     /** 강의 수정용 페이지 이동 **/
     @GetMapping("/lecture/{itemId}/modify")
     public String lectureUpdatePage(@PathVariable Long itemId, Model model) {
