@@ -1,0 +1,31 @@
+# server port set
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  # rabbitmq set
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: '{cipher}AQBSovx7NE6YKPwbLNA8mmqJyjYMFeZZ7KXTmddenuwcMd2PN8QLZzlZTyq2d20LtS4H6zZk1mByAMu7AXfqA8sILLABW0wBitVfEMhIIKXUt2uhtN0PON7TGFKeXLEtCV8rMTuJ69GcQdm2ExM6Mdm82rE5Lz1tfqw6evVu2U321+w0kOU+rpqcPgUR/pDVpY9esAUZ5OG1rykhMrsDasDmdNg1qA/1v8ErDXFXNikyHZsvkcFQPfw1M1nFMWaay6zW0pA57BosazvecaD+xYJ+7EqOxfFB4hf4uAvZn9/FFZQouyr4Zlr5GrDctfNIHcbZgd+J/F8GDoBQCenhLhWdbUkjfJCYhWX8EGmBObeZJGmxxhvHMk9ukELHKeBdp6Y='
+  cloud:
+    config:
+      server:
+        git:
+          # remote git repository
+          uri: https://github.com/Lee-HyunSoo/bootcamp-cloud-config.git
+          username: '{cipher}AQBcwaiJpLcM4wF7Gkjre9jC3v7Un8vF7VwowNpi2LdPUCkLq5QjDVCRPd9jFPkZBdJJAx/b8cYNLU6Qlx8fZrkT1wv88v/Phy1oeQYFyH9smlkRl44SYkcE7XQe7F8f7woSCTn5FRNnoW9SprnzoB43hUmEg2zVkQ+I/FH7DLKji8oNnYwJCDegwZnOQG8+j9xvmugR+L8w42aGVXJU7/CanAZ/Hex4RvGSK2yLEdBDt2x+dSmjy7v06YtJopaCCbXewNW2T3cJ6G2GSivNxRYRdtykDhENCOA6hKVU3Bd+BQ8wkvA9A9uhTl3uz60pBApXlXwmqXgIt5Xqk7IMFyxgGnlP3P+5GP4WwtXVk7gwxxNsiiEfrwsmAMsAxjctBmSgssdvst812kIQmcxZ0R9H'
+          password: '{cipher}AQBhcT93MtbVg+GXfVNLE8puYSDepwkJhM730azvS+NKWCfHq0RmX8aHbDJ0ONanRKhWioel0EVu2mNZ91nQ8Ckg57DyUIYYba9dVWKiWPnyqWAX9SkfeieayfuNVZs4j4/zdSWQGzLcmFlFhUDYHB/lcZoNWKLrbHgeG57PAl8ZWs6S9enpLGy+eDneYf3iAwI0SPLZSgLvqTKmYyAv/wAZNaIYEON/Wid0jWn5bWQ7lmC7kkJQx8Aaob0NiayO6jy9h9kpGbdte+Mb0Tpo/mwUvcsy5jljRbVdhxLr8CDcRD+hsq3ObETQbPwpyW3PFWD5c7h0wKzQZZta+NWFXlR27R7sXfogm1PhXgi75DwHUNSOXyhz7KfgvvGoo8cmgknNGwXe7WV9XaKXnDEEp0ii+oZMyRJuxWq6nlY4tN5dYA=='
+
+# actuator set
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh
+
+
+
