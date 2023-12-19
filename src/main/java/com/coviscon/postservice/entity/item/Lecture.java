@@ -1,14 +1,22 @@
 package com.coviscon.postservice.entity.item;
 
 import com.coviscon.postservice.entity.post.Qna;
-import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Builder
@@ -34,11 +42,8 @@ public class Lecture extends Item {
     @ColumnDefault(value = "0")
     private Integer likeCnt; // 좋아요 수
 
-    private String orderCode; // UUID
+//    private String orderCode; // UUID
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
 
     @Builder.Default
     @OneToMany(mappedBy = "lecture", orphanRemoval = true, cascade = CascadeType.ALL)
@@ -49,19 +54,40 @@ public class Lecture extends Item {
     private List<Qna> qnas = new ArrayList<>();
 
 
+    // == 생성 메서드 ==
+//    public static Lecture createLecture(RequestCreateLecture requestCreateLecture) {
+//        Lecture lecture = Lecture.builder()
+//                .content(requestCreateLecture.getContent())
+//                .price(requestCreateLecture.getPrice())
+//                .teacherId(requestCreateLecture.getTeacherId())
+//                .teacherName(requestCreateLecture.getTeacherName())
+//                .build();
+//        lecture.setTitle(requestCreateLecture.getTitle());
+//        lecture.setCategory(requestCreateLecture.getCategory());
+//        return lecture;
+//    }
+
+    // == update ==
+//    public void updateLecture(RequestCreateLecture requestCreateLecture) {
+//        this.setTitle(requestCreateLecture.getTitle());
+//        this.setCategory(getCategory());
+//        this.price = requestCreateLecture.getPrice();
+//        this.teacherName = requestCreateLecture.getTeacherName();
+//        this.content = requestCreateLecture.getContent();
+//    }
+
     /** 테스트용 **/
-    public static Lecture addLecture(String title, String content, int price, Category category, String teacherName) {
+    public static Lecture addLecture(String title, String content, int price, Category category, Long teacherId, String teacherName) {
         // 파일 업로드 추가될 시 파라미터 늘어날 예정
         Lecture lecture = Lecture.builder()
-            .content(content)
-            .price(price)
-            .teacherName(teacherName)
-            .build();
-
+                .content(content)
+                .price(price)
+                .teacherId(teacherId)
+                .teacherName(teacherName)
+                .build();
         lecture.setTitle(title);
         lecture.setCategory(category);
 
         return lecture;
     }
-
 }

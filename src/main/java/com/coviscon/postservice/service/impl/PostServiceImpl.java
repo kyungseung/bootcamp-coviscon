@@ -2,7 +2,7 @@ package com.coviscon.postservice.service.impl;
 
 import com.coviscon.postservice.dto.querydsl.PostSearchCondition;
 import com.coviscon.postservice.dto.request.RequestPostEdit;
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.dto.response.ResponsePostDetail;
 import com.coviscon.postservice.dto.response.ResponsePostEdit;
 import com.coviscon.postservice.entity.item.Category;
@@ -18,12 +18,9 @@ import com.coviscon.postservice.repository.ItemRepository;
 import com.coviscon.postservice.repository.PostRepository;
 import com.coviscon.postservice.dto.request.RequestPostCreate;
 import com.coviscon.postservice.service.PostService;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,18 +38,6 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
     private final ItemRepository itemRepository;
-
-    @PostConstruct
-    @Transactional
-    public void init() {
-        for (int i = 0; i < 30; i++) {
-            Lecture lecture = Lecture.addLecture("spring 입문" + i, "springBoot" + i, 1000, Category.SPRING, "수파덕");
-            itemRepository.save(lecture);
-
-            Qna qna = Qna.addQna("질문이 있어요! " + i, "spring을 잘하고 싶어요" + i, 10L, "코딩으로우주정복", lecture);
-            postRepository.save(qna);
-        }
-    }
 
     /*
     *   [커뮤니티] 모든 질문 보기
@@ -75,9 +60,9 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public ResponsePostDetail createPost(
-        MemberResponseDto member,
-        RequestPostCreate requestPostCreate,
-        HttpSession session) {
+            String imageId,
+            RequestPostCreate requestPostCreate,
+            MemberResponseDto member) {
 
         /* image 정보 가져오기 */
         Item item = getItem(requestPostCreate.getItemId());
@@ -91,7 +76,7 @@ public class PostServiceImpl implements PostService {
         }
 
         Qna savedPost = postRepository.save(post);
-        processImages(session, savedPost);
+        processImages(imageId, savedPost);
 
         return convertToQnaDto(savedPost);
     }
@@ -102,21 +87,6 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND)) : null;
     }
 
-    private void processImages(HttpSession session, Qna savedPost) {
-        Enumeration<String> names = session.getAttributeNames();
-
-        while (names.hasMoreElements()) {
-            String name = names.nextElement();
-            if (!name.equals("member")) {
-                Image image = (Image) session.getAttribute(name);
-                Image findImage = imageRepository.findById(image.getId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-                findImage.setQna(savedPost);
-                session.removeAttribute(name);
-            }
-        }
-    }
-
     /*
      * 제목 / 내용 / 제목 + 내용 검색
      */
@@ -125,12 +95,8 @@ public class PostServiceImpl implements PostService {
         String search, String keyword, String qnaStatus, Pageable pageable) {
         PostSearchCondition postSearchCondition = setPostSearchCondition(search, keyword, QnaStatus.valueOf(qnaStatus));
 
-        Page<ResponsePostDetail> responsePostDetails = postRepository.searchByKeyword(
-            postSearchCondition, pageable);
-
-        return responsePostDetails;
+        return postRepository.searchByKeyword(postSearchCondition, pageable);
     }
-
     @Override
     public int postTotalPage(String search, String keyword, String qnaStatus, Pageable pageable) {
         PostSearchCondition postSearchCondition = setPostSearchCondition(search, keyword, QnaStatus.valueOf(qnaStatus));
@@ -166,6 +132,7 @@ public class PostServiceImpl implements PostService {
         ResponsePostDetail responsePostDetail = new ResponsePostDetail();
         responsePostDetail.goPost(qna);
         responsePostDetail.setItemTitle(item.getTitle());
+        responsePostDetail.setItemId(itemId);
 
         return responsePostDetail;
     }
@@ -221,9 +188,18 @@ public class PostServiceImpl implements PostService {
         return postRepository.searchAllPost(memberResponseDto);
     }
 
-    @Override
-    public ResponsePostDetail searchPost(Long qnaId, MemberResponseDto memberResponseDto) {
-        return postRepository.searchPost(qnaId, memberResponseDto);
+    private void processImages(String imageId, Qna savedPost) {
+        if (imageId != null && !imageId.trim().isEmpty()) {
+            try {
+                Long imageIdAsLong = Long.valueOf(imageId);
+                Image foundImage = imageRepository.findById(imageIdAsLong)
+                    .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
+                foundImage.setQna(savedPost);
+            } catch (NumberFormatException e) {
+                log.error("Invalid imageId format: {}", imageId);
+            }
+        }
+        // imageId가 null이거나 빈 문자열인 경우에는 그냥 넘어가도록 설정
     }
 
     private ResponsePostDetail convertToQnaDto(Qna qna) {
@@ -243,5 +219,4 @@ public class PostServiceImpl implements PostService {
             .qnaStatus(qna.getQnaStatus())
             .build();
     }
-
 }

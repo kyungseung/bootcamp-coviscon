@@ -7,10 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,26 +37,21 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional
-    public Image store(MultipartFile multipartFile, HttpServletRequest request) throws Exception {
+    public Image store(MultipartFile multipartFile) throws Exception {
         try {
             if(multipartFile.isEmpty()) {
                 throw new Exception("Failed to store empty file " + multipartFile.getOriginalFilename());
             }
 
-            HttpSession session = request.getSession();
-
             // 확장자 추출
-            String extension = findExtension(multipartFile.getOriginalFilename());
+            String extension = findExtension(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             // 이미지를 uploadPath에 저장
             String saveImageName = convertImageName(rootLocation.toString(), extension, multipartFile);
 
             Image image = Image.createImage(saveImageName, multipartFile, rootLocation);
-            log.info("[ImageServiceImpl] Image : {}", image);
+            log.info("[ImageServiceImpl store] Image : {}", image);
 
-            // DB에 들어갈 내용을 저장
-            imageRepository.save(image);
-            session.setAttribute(image.getImageName(), image);
-            return image;
+            return imageRepository.save(image);
         } catch(IOException e) {
             throw new Exception("Failed to store file " + multipartFile.getOriginalFilename(), e);
         }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<div layout:fragment="content">
+  <main>
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+        <ol>
+          <li><a href="#">마이페이지</a></li>
+          <li>질문 & 답변</li>
+        </ol>
+        <h2>내 질문</h2>
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+      <div class="container">
+
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>[미해결/해결]</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="post : ${postList}">
+            <td>
+              <h5>
+                <span th:if="${post.qnaStatus.toString() == 'INCOMPLETE'}" class="badge bg-secondary">미해결</span>
+                <span th:if="${post.qnaStatus.toString() == 'COMPLETE'}" class="badge bg-success">해결됨</span>
+              </h5>
+            </td>
+            <td>
+              <a th:if="${post.itemId != null}"
+                 th:href="${@environment.getProperty('prefix.url')} + @{{qnaId}/{itemId}/detail(qnaId=${post.qnaId}, itemId=${post.itemId})}"
+                 th:text="${post.title}"></a>
+              <a th:if="${post.itemId == null}"
+                 th:href="${@environment.getProperty('prefix.url')} + @{{qnaId}/detail(qnaId=${post.qnaId})}"
+                 th:text="${post.title}"></a>
+            </td>
+            <td>
+              <p class="post-list" th:text="${post.nickName}"></p>
+            </td>
+            <td>
+              <p class="post-list" th:text="${#temporals.format(post.lastModifiedDate, 'yyyy.MM.dd')}"></p>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </section>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
+  </main><!-- End #main -->
+</div>
+</html>

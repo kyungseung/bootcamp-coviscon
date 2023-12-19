@@ -49,7 +49,7 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
-	implementation 'com.google.code.gson:gson:2.8.9'
+//	implementation 'com.google.code.gson:gson:2.8.9'
 
 	/* spring boot actuator */
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -58,21 +58,21 @@ dependencies {
 	/* spring cloud bootstrap */
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	/* spring cloud bus & amqp */
-//	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 	/* spring cloud feign client */
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 	/* resilience4j */
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 	/* kafka */
-	implementation 'org.springframework.kafka:spring-kafka'
+//	implementation 'org.springframework.kafka:spring-kafka'
 
 	/* spring cloud sleuth */
-	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	/* zipkin */
 //	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
 	/* micrometer */
-	implementation 'io.micrometer:micrometer-registry-prometheus'
+//	implementation 'io.micrometer:micrometer-registry-prometheus'
 
 	/* Model Mapper */
 	implementation 'org.modelmapper:modelmapper:2.3.8'
@@ -83,8 +83,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.session:spring-session-data-redis'
 
-	/* security */
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 dependencyManagement {

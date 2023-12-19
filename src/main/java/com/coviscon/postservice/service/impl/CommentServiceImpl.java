@@ -2,7 +2,7 @@ package com.coviscon.postservice.service.impl;
 
 import com.coviscon.postservice.dto.request.RequestCommentCreate;
 import com.coviscon.postservice.dto.request.RequestCommentEdit;
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.dto.response.ResponseCommentList;
 import com.coviscon.postservice.entity.post.Comment;
 import com.coviscon.postservice.entity.post.Qna;
@@ -45,19 +45,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public ResponseCommentList createComment(
-        MemberResponseDto member,
-        RequestCommentCreate requestCommentCreate) {
+            MemberResponseDto member,
+            RequestCommentCreate requestCommentCreate) {
 
         log.info("[CommentServiceImpl] MemberResponseDto {}", member);
-        // if (부모가 없으면)
-        // 바로 save parent id = 0
 
-        // 본인 id = 0 / parent id = 0
-        // 본인 id = 1 / parent id = 0
-        // 본인 id = 2 / parent id = 1
-        // 본인 id = 3 / ...
-
-        // 있으면
         // 새 댓글 생성
         Comment newComment = Comment.createComment(
             member,
@@ -74,9 +66,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private Qna findPostById(Long qnaId) {
-        Qna qna = postRepository.findById(qnaId)
+        return postRepository.findById(qnaId)
             .orElseThrow(() -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND));
-        return qna;
     }
 
     private Comment getParentComment(Long parentId) {
@@ -93,7 +84,7 @@ public class CommentServiceImpl implements CommentService {
         List<ResponseCommentList> result = new ArrayList<>();
         Map<Long, ResponseCommentList> map = new HashMap<>();
 
-        comments.stream().forEach(c -> {
+        comments.forEach(c -> {
             ResponseCommentList dto = ResponseCommentList.convertCommentToDto(c);
             map.put(dto.getCommentId(), dto);
 

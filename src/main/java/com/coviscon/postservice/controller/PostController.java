@@ -1,35 +1,46 @@
 package com.coviscon.postservice.controller;
 
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.request.RequestPostCreate;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.dto.response.ResponseCommentList;
 import com.coviscon.postservice.dto.response.ResponsePostDetail;
 import com.coviscon.postservice.dto.response.ResponsePostEdit;
+import com.coviscon.postservice.exception.CustomException;
+import com.coviscon.postservice.exception.ErrorCode;
 import com.coviscon.postservice.service.CommentService;
 import com.coviscon.postservice.service.PostService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
-//@RequestMapping("/post-service")
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
     private final CommentService commentService;
+    private final HttpSession session;
 
     /*
     *   [커뮤니티] Post 전체 리스트 + Post 질문 검색
@@ -61,10 +72,34 @@ public class PostController {
     }
 
     /*
+    * 마이페이지 : 학생
+    */
+    @GetMapping("/mypage/list")
+    public String searchAllPost(Model model) {
+
+        String memberId = (String) session.getAttribute("memberId");
+
+        MemberResponseDto memberResponseDto = new MemberResponseDto();
+        memberResponseDto.setMemberId(Long.valueOf(memberId));
+
+        List<ResponsePostDetail> postList = postService.searchAllPost(memberResponseDto);
+
+        model.addAttribute("postList", postList);
+
+        return "post/mypagePostList";
+    }
+
+    /*
      *   [커뮤니티] Post 작성 페이지 이동
      */
     @GetMapping("/community/create")
     public String createCommunityPostForm() {
+        String memberId = (String) session.getAttribute("memberId");
+
+        if (memberId == null) {
+            throw new CustomException(ErrorCode.VALID_MEMBER_ID);
+        }
+
         return "post/create";
     }
 
@@ -74,6 +109,12 @@ public class PostController {
      */
     @GetMapping("/{itemId}/create")
     public String createPostForm(@PathVariable Long itemId, Model model) {
+        String memberId = (String) session.getAttribute("memberId");
+
+        if (memberId == null && itemId == null) {
+            throw new CustomException(ErrorCode.VALID_MEMBER_ID);
+        }
+
         model.addAttribute("itemId", itemId);
         return "post/create";
     }
@@ -82,14 +123,10 @@ public class PostController {
      *   [커뮤니티] qnaId를 기준으로 게시글 상세보기
      */
     @GetMapping("/{qnaId}/detail")
-    public String detailCommunityPostById(
-        @PathVariable Long qnaId,
-        Model model,
-        HttpServletRequest request) {
+    public String detailCommunityPostById(@PathVariable Long qnaId, Model model) {
 
-        return detailPost(qnaId, model, request, null);
+        return detailPost(qnaId, model, null);
     }
-
 
     /*
      *   [특정 강의에 대해] qnaId, itemId를 기준으로 게시글 상세보기
@@ -98,10 +135,9 @@ public class PostController {
     public String detailPostById(
         @PathVariable Long qnaId,
         @PathVariable Long itemId,
-        Model model,
-        HttpServletRequest request) {
+        Model model) {
 
-        return detailPost(qnaId, model, request, itemId);
+        return detailPost(qnaId, model, itemId);
     }
 
     /*
@@ -123,15 +159,8 @@ public class PostController {
     /*
     *   [특정 강의 + 커뮤니티] 게시글 상세보기
     */
-    private String detailPost(
-        Long qnaId,
-        Model model,
-        HttpServletRequest request,
-        Long itemId) {
-
-        HttpSession session = request.getSession();
-        MemberResponseDto member = (MemberResponseDto) session.getAttribute("member");
-
+    private String detailPost(Long qnaId, Model model, Long itemId) {
+        MemberResponseDto member = setMemberResponseDto();
         log.info("[PostController detailPostById] member: {}", member);
         log.info("[PostController detailPostById] qnaId : {}", qnaId);
         if (itemId != null) {
@@ -161,5 +190,25 @@ public class PostController {
         }
 
         return "post/detail";
+    }
+
+    /**
+     * session -> set MemberResponseDto
+     */
+    private MemberResponseDto setMemberResponseDto() {
+        String memberId = (String) session.getAttribute("memberId");
+        String email = (String) session.getAttribute("email");
+        String nickName = (String) session.getAttribute("nickName");
+        String role = (String) session.getAttribute("role");
+
+        if (memberId == null)
+            return null;
+
+        return MemberResponseDto.builder()
+                .memberId(Long.valueOf(memberId))
+                .email(email)
+                .nickName(nickName)
+                .role(role)
+                .build();
     }
 }

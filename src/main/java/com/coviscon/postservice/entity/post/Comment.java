@@ -1,7 +1,7 @@
 package com.coviscon.postservice.entity.post;
 
 import com.coviscon.postservice.dto.request.RequestCommentEdit;
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.entity.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -53,15 +53,6 @@ public class Comment extends BaseTimeEntity {
 
     // == 생성 메서드 ==
     public static Comment createComment(MemberResponseDto member, String content, Qna qna, Comment parent) {
-//        String nickName = null;
-//        String tNickName = null;
-//
-//        if ("ROLE_STUDENT".equals(member.getRole())) {
-//            nickName = member.getNickName();
-//        } else if ("ROLE_TEACHER".equals(member.getRole())) {
-//            tNickName = member.getNickName();
-//        }
-
         return Comment.builder()
             .nickName(member.getNickName())
             .tNickName(member.getNickName())
@@ -82,9 +73,7 @@ public class Comment extends BaseTimeEntity {
         this.isDeleted = isDeleted;
     }
 
-
     // == 댓글 수정 ==
-    // == update ==
     public void updateComment(RequestCommentEdit requestPostEdit) {
         this.id = requestPostEdit.getCommentId();
         this.content = requestPostEdit.getContent();

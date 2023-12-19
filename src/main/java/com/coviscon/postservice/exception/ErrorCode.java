@@ -21,11 +21,12 @@ public enum ErrorCode {
 
     /* 403 FORBIDDEN : 접근 권한 제한 */
     /* Valid : 유효한 */
-    VALID_USER_ID(FORBIDDEN, "해당 정보에 접근 권한이 존재하지 않습니다.", ""),
+    VALID_MEMBER_ID(FORBIDDEN, "로그인이 필요합니다!", "postNotFound"),
     LOGIN_FAIL(FORBIDDEN, "아이디나 비밀번호가 틀렸습니다.", "loginFail"),
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     MEMBER_NOT_FOUND(NOT_FOUND, "해당 회원 정보를 찾을 수 없습니다.", "postNotFound"),
+    IMAGE_NOT_FOUND(NOT_FOUND, "해당 이미지 정보를 찾을 수 없습니다.", "postNotFound"),
     EMAIL_NOT_FOUND(NOT_FOUND, "해당 이메일을 찾을 수 없습니다.", ""),
     PASSWORD_NOT_FOUND(NOT_FOUND, "해당 비밀번호를 찾을 수 없습니다.", ""),
     TYPE_NOT_FOUND(NOT_FOUND,"해당 타입을 찾을 수 없습니다.", ""),

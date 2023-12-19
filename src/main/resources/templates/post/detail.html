@@ -9,9 +9,8 @@
     <!-- ======= Breadcrumbs ======= -->
     <section class="breadcrumbs">
       <div class="container">
-
         <ol>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="#">커뮤니티</a></li>
           <li><a href="/post-service/list">질문 & 답변</a></li>
         </ol>
         <h2 th:text="${postDetail.title}"></h2>
@@ -76,11 +75,11 @@
             <!-- itemId에 해당하는 강의 정보 -->
             <div th:if="${itemId != null}"
                  class="blog-author d-flex align-items-center">
-              <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/blog/blog-author.jpg'"
+              <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/testspring.png'"
                   class="float-left" alt="">
               <div>
                 <h3>
-                  <a th:href="${@environment.getProperty('prefix.url')} + @{/item-service/lecture/{itemId}/detail(itemId=${postDetail.itemId})}"
+                  <a th:href="${@environment.getProperty('prefix.item')} + @{lecture/{itemId}/detail(itemId=${postDetail.itemId})}"
                      th:text="${postDetail.itemTitle}"></a>
                 </h3>
               </div>
@@ -346,9 +345,6 @@
             window.location.reload(); // 현재 페이지에서 새로고침
             return response.json();
           })
-          .then(data => {
-            console.log('Comment created:', data);
-          })
           .catch(error => {
             console.error('Error creating comment:', error);
           });
@@ -414,12 +410,9 @@
       </script>
 
     </section>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
   </main>
 </div>
-
-<script>
-
-
-</script>
-
 </html>

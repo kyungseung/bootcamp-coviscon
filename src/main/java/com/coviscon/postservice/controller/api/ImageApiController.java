@@ -1,11 +1,10 @@
 package com.coviscon.postservice.controller.api;
 
-import com.coviscon.postservice.dto.request.RequestImageUpload;
 import com.coviscon.postservice.entity.post.Image;
 import com.coviscon.postservice.service.ImageService;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -16,14 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
-//@RequestMapping("/post-service")
 @RequiredArgsConstructor
 public class ImageApiController {
 
@@ -37,20 +34,25 @@ public class ImageApiController {
     @PostMapping("/image")
     public ResponseEntity<String> imageUpload(
         @RequestParam MultipartFile multipartFile,
-        HttpServletRequest request
-    ) {
+        HttpServletResponse response) {
+
         try {
-            Image image = imageService.store(multipartFile, request);
+            Image image = imageService.store(multipartFile);
             log.info("[ImageApiController imageUpload] uploadPath : {}", image.getImagePath());
+
+            /* image id 를 cookie 에 저장 */
+            Cookie cookie = new Cookie("imageId", String.valueOf(image.getId()));
+            cookie.setMaxAge(60 * 60 * 24);
+            cookie.setPath(env.getProperty("prefix.url") + "create");
+            response.addCookie(cookie);
+
             return ResponseEntity.status(HttpStatus.OK)
                 .body(env.getProperty("prefix.url") + image.getId() + "/image");
 
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image.");
         }
     }
-
 
     /*
     *   [커뮤니티 + 특정 강의에 대해] 게시글 작성/게시글 상세보기 시, 이미지 검색
@@ -64,9 +66,7 @@ public class ImageApiController {
             return ResponseEntity.status(HttpStatus.OK).body(resource);
 
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found.");
         }
     }
-
 }

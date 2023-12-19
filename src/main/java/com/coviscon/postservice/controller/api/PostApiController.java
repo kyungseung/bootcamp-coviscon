@@ -1,17 +1,18 @@
 package com.coviscon.postservice.controller.api;
 
 import com.coviscon.postservice.dto.request.RequestPostCreate;
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.dto.response.ResponsePostDetail;
 import com.coviscon.postservice.dto.request.RequestPostEdit;
 import com.coviscon.postservice.service.PostService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,25 +21,35 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-//@RequestMapping("/post-service")
 @RequiredArgsConstructor
 public class PostApiController {
 
     private final PostService postService;
-
+    private final HttpSession session;
 
     /*
      *  post 작성 (로그인 정보가 있어야지 작성가능)
      */
     @PostMapping("/create")
     public ResponseEntity<ResponsePostDetail> createPost(
-        @ModelAttribute RequestPostCreate requestPostCreate,
-        HttpSession session) {
-        ObjectMapper mapper = new ObjectMapper();
-        MemberResponseDto member = mapper.convertValue(session.getAttribute("member"), MemberResponseDto.class);
+            @CookieValue(value = "imageId", required = false) Cookie cookie,
+            @ModelAttribute RequestPostCreate requestPostCreate,
+            HttpServletResponse response) {
 
-        ResponsePostDetail responsePostDetail = postService.createPost(member, requestPostCreate, session);
+        MemberResponseDto member = setMemberResponseDto();
+        log.info("[PostApiController] MemberResponseDto : {}", member);
+
+        String imageId = (cookie != null) ? cookie.getValue() : null;
+
+        ResponsePostDetail responsePostDetail = postService
+                .createPost(imageId, requestPostCreate, member);
         log.info("[PostApiController] RequestPostCreate : {}", responsePostDetail);
+
+        /* cookie 삭제 */
+        if (cookie != null) {
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responsePostDetail);
     }
@@ -81,55 +92,6 @@ public class PostApiController {
     }
 
 
-    /**
-     * @Controller memberQnas
-     * member (student, teacher) 를 통해 자신이 포함 된 qna List 전부 조회
-     * dto 변수명 확인 필요
-     * @RequestBody 확인 필요
-     */
-    @GetMapping("/post/list")
-    public ResponseEntity<List<ResponsePostDetail>> searchAllPost(
-        @RequestBody MemberResponseDto memberResponseDto) {
-
-        List<ResponsePostDetail> postList = postService.searchAllPost(memberResponseDto);
-
-        log.info("[PostApiController searchAllPost] searchAllPost : {}", postList);
-        return ResponseEntity.status(HttpStatus.OK).body(postList);
-    }
-
-    /**
-     * @Controller qnaModify
-     * member (student), qnaId 를 통해 작성한 게시글 조회
-     * dto 변수명 확인 필요
-     * @RequestBody 확인 필요
-     */
-    @GetMapping("/post/{qnaId}/detail")
-    public ResponseEntity<ResponsePostDetail> searchQna(
-        @PathVariable Long qnaId,
-        @RequestBody MemberResponseDto memberResponseDto) {
-
-        ResponsePostDetail responsePostDetail = postService.searchPost(qnaId, memberResponseDto);
-
-        log.info("[PostApiController] searchQna : {}", responsePostDetail);
-        return ResponseEntity.status(HttpStatus.OK).body(responsePostDetail);
-    }
-
-    // 마이페이지를 통해서 들어가는 리스트
-    @GetMapping("/{itemId}/list")
-    public ResponseEntity<Page<ResponsePostDetail>> searchPostKeyword(
-        @PathVariable Long itemId,
-        @RequestParam(defaultValue = "") String search,
-        @RequestParam(defaultValue = "") String keyword,
-        @RequestParam(defaultValue = "ALL") String qnaStatus,
-        Pageable pageable) {
-        log.info("search: {}, keyword: {}", search, keyword);
-
-        Page<ResponsePostDetail> qnaList = postService.searchByKeyword(search, keyword, qnaStatus, pageable);
-
-        return ResponseEntity.status(HttpStatus.OK).body(qnaList);
-    }
-
-
     /*
      *  member의 정보를 session에 저장
      */
@@ -146,4 +108,23 @@ public class PostApiController {
         return ResponseEntity.ok("");
     }
 
+    /**
+     * session -> set MemberResponseDto
+     */
+    private MemberResponseDto setMemberResponseDto() {
+        String memberId = (String) session.getAttribute("memberId");
+        String email = (String) session.getAttribute("email");
+        String nickName = (String) session.getAttribute("nickName");
+        String role = (String) session.getAttribute("role");
+
+        if (memberId == null)
+            return null;
+
+        return MemberResponseDto.builder()
+                .memberId(Long.valueOf(memberId))
+                .email(email)
+                .nickName(nickName)
+                .role(role)
+                .build();
+    }
 }

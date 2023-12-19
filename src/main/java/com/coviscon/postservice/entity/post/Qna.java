@@ -2,7 +2,7 @@ package com.coviscon.postservice.entity.post;
 
 import com.coviscon.postservice.dto.request.RequestPostCreate;
 import com.coviscon.postservice.dto.request.RequestPostEdit;
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.entity.auditing.BaseTimeEntity;
 import com.coviscon.postservice.entity.item.Item;
 import com.coviscon.postservice.entity.item.Lecture;

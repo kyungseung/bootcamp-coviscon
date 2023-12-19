@@ -2,7 +2,7 @@ package com.coviscon.postservice.service;
 
 import com.coviscon.postservice.dto.request.RequestCommentCreate;
 import com.coviscon.postservice.dto.request.RequestCommentEdit;
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.dto.response.ResponseCommentList;
 import com.coviscon.postservice.entity.post.Comment;
 import java.util.List;

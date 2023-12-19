@@ -1,18 +1,12 @@
 package com.coviscon.postservice.config;
 
-import com.coviscon.postservice.dto.MemberResponseDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
@@ -24,11 +18,18 @@ public class RedisConfig {
     private String host;
 
     @Value("${spring.redis.port}")
-    private int port;
+    private String port;
+
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(Integer.parseInt(port));
+        redisStandaloneConfiguration.setPassword(password);
+        return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
     @Bean
@@ -38,10 +39,8 @@ public class RedisConfig {
         redisTemplate.setEnableTransactionSupport(true);
 
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(MemberResponseDto.class));
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
 
-//        redisTemplate.setHashKeySerializer(new GenericJackson2JsonRedisSerializer(mapper()));
-//        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer(mapper()));
         return redisTemplate;
     }
 }

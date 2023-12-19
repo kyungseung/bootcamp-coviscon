@@ -4,7 +4,7 @@ import static com.coviscon.postservice.entity.post.QQna.qna;
 import static org.springframework.util.StringUtils.hasText;
 
 import com.coviscon.postservice.dto.querydsl.PostSearchCondition;
-import com.coviscon.postservice.dto.MemberResponseDto;
+import com.coviscon.postservice.dto.response.MemberResponseDto;
 import com.coviscon.postservice.dto.response.QResponsePostDetail;
 import com.coviscon.postservice.dto.response.ResponsePostDetail;
 import com.coviscon.postservice.entity.post.QnaStatus;
@@ -47,29 +47,9 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom{
             .fetch();
     }
 
-    /**
-     * member (student), qnaId 를 통해 작성한 게시글 조회
-     */
-    @Override
-    public ResponsePostDetail searchPost(Long qnaId, MemberResponseDto memberResponseDto) {
-        return queryFactory.select(new QResponsePostDetail(
-                qna.id.as("qnaId"),
-                qna.lastModifiedDate,
-                qna.title,
-                qna.content,
-                qna.qnaStatus,
-                qna.nickName
-            ))
-            .from(qna)
-            .where(
-                qna.id.eq(qnaId),
-                qna.memberId.eq(memberResponseDto.getMemberId())
-            )
-            .fetchOne();
-    }
 
     /**
-     * member (student, teacher) 를 통해 자신이 포함 된 qna List 전부 조회
+     * member (student) 를 통해 자신이 작성한 qna List 전부 조회
      */
     @Override
     public List<ResponsePostDetail> searchAllPost(MemberResponseDto memberResponseDto) {

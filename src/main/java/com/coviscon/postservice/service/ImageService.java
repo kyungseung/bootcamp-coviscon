@@ -13,7 +13,7 @@ public interface ImageService {
 
     void init();
 
-    Image store(MultipartFile multipartFile, HttpServletRequest request) throws Exception;
+    Image store(MultipartFile multipartFile) throws Exception;
 
     Image load(Long imageId);
 }
