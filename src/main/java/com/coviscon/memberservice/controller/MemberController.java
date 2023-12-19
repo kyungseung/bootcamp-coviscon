@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MemberController {
 
     private final MemberService memberService;
+    private final Environment env;
 
     @GetMapping("/settings")
     public String settings() {
@@ -49,7 +50,7 @@ public class MemberController {
         String email = (String) session.getAttribute("email");
 
         memberService.changedPassword(email, prePassword, nextPassword);
-        return "redirect:/auth/logout";
+        return env.getProperty("redirect.url") + "auth/logout";
 
     }
 
@@ -61,7 +62,7 @@ public class MemberController {
         String email = (String) session.getAttribute("email");
 
         memberService.deleteMember(email);
-        return "redirect:/auth/logout";
+        return env.getProperty("redirect.url") + "auth/logout";
     }
 
 
