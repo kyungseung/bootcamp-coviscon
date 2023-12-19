@@ -9,7 +9,7 @@
         <section class="breadcrumbs">
             <div class="container">
                 <ol>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a th:href="${@environment.getProperty('prefix.member')}">Home</a></li>
                     <li>강의등록</li>
                 </ol>
                 <h2>새 강의 등록</h2>
@@ -127,7 +127,7 @@
                                 }
 
                                 // localhost를 서버 IP로 변경하면 됨
-                                const url = `http://127.0.0.1:8000/item-service`;
+                                const url = "[[${prefix.tus}]]";
 
                                 try {
                                     let start = new Date();
@@ -227,18 +227,6 @@
                                 clearInterval();
                             });
                         </script>
-
-
-                        <!--                  </div>-->
-                        <!--                </div>-->
-                        <!--              </div>-->
-
-                        <!--                        <hr class="mb-4">-->
-                        <!--                        <div class="d-grid gap-2">-->
-                        <!--                            <div id="data-pre"></div>-->
-                        <!--                            <button class="btn btn-lg btn-primary" id="submit-button" type="submit">강의 등록</button>-->
-                        <!--                        </div>-->
-                        <!--                        </form>-->
                     </div>
 
                 </div>
