@@ -27,9 +27,9 @@
                            th:href="${@environment.getProperty('prefix.item')} + 'lecture/list'">강의</a></li>
                     <li><a class="nav-link scrollto"
                            th:href="${@environment.getProperty('prefix.item')} + 'book/list'">교재</a></li>
-                    <li class="dropdown"><a th:href="${@environment.getProperty('prefix.post')} + 'list'"><span>커뮤니티</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a th:href="${@environment.getProperty('prefix.url')} + 'list'"><span>커뮤니티</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a th:href="${@environment.getProperty('prefix.post')} + 'list'">질문 & 답변</a></li>
+                            <li><a th:href="${@environment.getProperty('prefix.url')} + 'list'">질문 & 답변</a></li>
                         </ul>
                     </li>
                     <li><a th:if="${session.memberId != null}" class="nav-link scrollto" th:href="${@environment.getProperty('prefix.order')} + 'cart/list'">장바구니</a></li>
@@ -37,7 +37,7 @@
                         <ul>
                             <li><a th:if="${session.role == 'ROLE_STUDENT'}" th:href="${@environment.getProperty('prefix.order')} + 'list'">구매한 강의</a></li>
                             <li><a th:if="${session.role == 'ROLE_TEACHER'}" th:href="${@environment.getProperty('prefix.item')} + 'teacher/lecture/list'">내 강의</a></li>
-                            <li><a th:if="${session.role == 'ROLE_STUDENT'}" th:href="${@environment.getProperty('prefix.post')} + 'list'">내 질문</a></li>
+                            <li><a th:if="${session.role == 'ROLE_STUDENT'}" th:href="${@environment.getProperty('prefix.url')} + 'list'">내 질문</a></li>
                             <li><a th:href="${@environment.getProperty('prefix.member')} + 'member/settings'">회원정보 수정</a></li>
                         </ul>
                     </li>
