@@ -31,25 +31,25 @@ public class SecurityConfig {
                 .and()
 
                 .formLogin()
-                .loginPage("http://127.0.0.1:8000/member-service/auth/login")
+                .loginPage("http://3.39.96.34:8000/member-service/auth/login")
                 .failureHandler(customFailureHandler) /* 로그인 실패 핸들러 */
                 .and()
                 .logout()
-                .logoutUrl("http://127.0.0.1:8000/member-service/auth/logout")
-                .logoutSuccessUrl("http://127.0.0.1:8000/member-service/")
+                .logoutUrl("http://3.39.96.34:8000/member-service/auth/logout")
+                .logoutSuccessUrl("http://3.39.96.34:8000/member-service/")
                 .invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .and()
 
                 .oauth2Login()
                 .failureHandler(customFailureHandler) /* 로그인 실패 핸들러 */
-                .defaultSuccessUrl("http://127.0.0.1:8000/member-service/") //OAuth 구글 로그인이 성공하면 이동할 uri 설정
+                .defaultSuccessUrl("http://3.39.96.34:8000/member-service/") //OAuth 구글 로그인이 성공하면 이동할 uri 설정
                 .userInfoEndpoint() // 로그인 완료 후 회원 정보 받기
                 .userService(OAuthMemberService)
                 .and()
                 .and()
                 .logout()
-                .logoutUrl("http://127.0.0.1:8000/member-service/auth/logout")
-                .logoutSuccessUrl("http://127.0.0.1:8000/member-service/")
+                .logoutUrl("http://3.39.96.34:8000/member-service/auth/logout")
+                .logoutSuccessUrl("http://3.39.96.34:8000/member-service/")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .and()

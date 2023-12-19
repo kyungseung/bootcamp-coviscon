@@ -22,13 +22,19 @@
 
                     <form class="validation-form" th:action="${@environment.getProperty('prefix.url')} + 'auth/join'" method="post">
                         <div class="mb-4">
-                            <label for="email">이메일</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                   placeholder="you@example.com" required>
+                            <label for="emails">이메일</label>
+<!--                            <div class="input-group">-->
+<!--                                <input type="email" class="form-control" id="emails" name="email" placeholder="you@example.com" required>-->
+<!--                                <button type="button" id="validateEmail" class="btn btn-primary">중복 확인</button>-->
+<!--                            </div>-->
+                            <div class="input-group">
+                                <input type="email" class="form-control" id="emails" name="email" placeholder="you@example.com" required>
+                                <button type="button" id="validateEmail" class="btn btn-primary" th:value="false">중복 확인</button>
+                            </div>
 <!--                                   th:field="*{member.getEmail()}"-->
 <!--                                   th:class="${#fields.hasErrors('email')}-->
 <!--                                   ? 'form-control fieldError' : 'form-control'">-->
-                            <div class="invalid-feedback">
+                            <div class="invalid-feedback" id="emailError">
                                 이메일을 입력해주세요.
                             </div>
                         </div>
@@ -54,22 +60,30 @@
 
                         <div class="mb-4">
                             <label for="identifier">닉네임</label>
-                            <input type="text" class="form-control" id="identifier" name="nickName" required>
+<!--                            <div class="input-group">-->
+<!--                                <input type="text" class="form-control" id="identifier" name="nickName" required>-->
+<!--                                <button type="button" id="validateNickName" class="btn btn-primary">중복 확인</button>-->
+<!--                            </div>-->
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="identifier" name="nickName" required>
+                                <button type="button" id="validateNickName" class="btn btn-primary">중복 확인</button>
+                            </div>
 <!--                                   th:field="*{member.getNickName()}"-->
 <!--                                   th:class="${#fields.hasErrors('nickName')}-->
 <!--                                   ? 'form-control fieldError' : 'form-control'">-->
-                            <div class="invalid-feedback">
+                            <div class="invalid-feedback" id="nickNameError">
                                 닉네임을 입력해주세요.
                             </div>
                         </div>
 
-                        <span class="selectBox">
-                        <select name="role" class="category">
+                        <div class="form-group">
+                          <label for="exampleDisabledSelect1" class="form-label">역할</label>
+                          <select name="role" class="form-select" id="exampleDisabledSelect1">
                             <option value="">희망 권한</option>
                             <option value="STUDENT">STUDENT</option>
                             <option value="TEACHER">TEACHER</option>
-                        </select>
-                    </span>
+                          </select>
+                        </div>
 
 
                         <!--                    <div class="mb-4">-->
@@ -114,16 +128,85 @@
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button class="btn btn-lg btn-primary" type="submit">가입 완료</button>
+                            <button class="btn btn-lg btn-primary" type="submit" id="submitBtn" disabled>가입 완료</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    </section>
-</div>
+        <script>
+            var memberUrl = "[[${@environment.getProperty('prefix.url')}]]";
+            var isEmailAvailable = false;
+            var isNicknameAvailable = false;
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
-</body>
+            $(document).ready(function () {
+
+                // 가입 완료 버튼 클릭 시
+                $("#submitBtn").click(function () {
+                    // 아이디와 닉네임이 중복되지 않은 경우에만 submit
+                    if (isEmailAvailable && isNicknameAvailable) {
+                        $("#joinForm").submit();
+                    } else {
+                        alert("이메일과 닉네임을 확인하세요.");
+                    }
+                });
+
+                // 이메일 유효성 검사
+                $("#validateEmail").click(function () {
+                    var email = $("#emails").val();
+                    console.log("email : " + email);
+                    if (email !== "") {
+                        checkDuplicate(memberUrl + "auth/member-emails/" + email + "/exist", "email");
+                    }
+                });
+
+                // 닉네임 유효성 검사
+                $("#validateNickName").click(function () {
+                    var nickName = $("#identifier").val();
+                    console.log("nickname : " + nickName);
+                    if (nickName !== "") {
+                        checkDuplicate(memberUrl + "auth/member-nicknames/" + nickName + "/exist", "identifier");
+                    }
+                });
+
+                function checkDuplicate(url, field) {
+                    console.log("url : " + url);
+                    console.log("field : " + field);
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function (data) {
+                            console.log("data : " + data);
+                            if (!data) {
+                                // 중복된 값이 존재하지 않음
+                                alert(field === "email" ? "사용 가능한 이메일입니다." : (field === "identifier" ? "사용 가능한 닉네임입니다." : ""));
+                                if (field === "email") {
+                                    isEmailAvailable = true;
+                                } else if (field === "identifier") {
+                                    isNicknameAvailable = true;
+                                }
+                            } else {
+                                // 중복된 값이 존재함
+                                alert(field === "email" ? "중복된 이메일입니다." : (field === "identifier" ? "중복된 닉네임입니다." : ""));
+                                if (field === "email") {
+                                    isEmailAvailable = false;
+                                } else if (field === "identifier") {
+                                    isNicknameAvailable = false;
+                                }
+                            }
+                            $("#submitBtn").prop("disabled", !(isEmailAvailable && isNicknameAvailable));
+                        },
+                        error: function () {
+                            console.error(field + "에 대한 중복 확인 중 오류 발생");
+                        }
+                    });
+                }
+            });
+        </script>
+    </section>
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+</div>
 </html>

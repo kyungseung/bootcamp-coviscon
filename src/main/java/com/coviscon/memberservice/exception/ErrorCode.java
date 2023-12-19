@@ -21,11 +21,12 @@ public enum ErrorCode {
     LOGIN_FAIL(FORBIDDEN, "아이디나 비밀번호가 틀렸습니다.", "loginFail"),
     VALID_EMAIL(FORBIDDEN, "이미 존재하는 이메일입니다.", "valid"),
     VALID_NICK_NAME(FORBIDDEN, "이미 존재하는 닉네임입니다.", "valid"),
+    PASSWORD_FAIL(FORBIDDEN, "비밀번호가 틀렸습니다.", "valid"),
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     MEMBER_NOT_FOUND(NOT_FOUND, "해당 회원 정보를 찾을 수 없습니다.", "notFound"),
     EMAIL_NOT_FOUND(NOT_FOUND, "해당 이메일을 찾을 수 없습니다.", "notFound"),
-    PASSWORD_NOT_FOUND(NOT_FOUND, "해당 비밀번호를 찾을 수 없습니다.", ""),
+    PASSWORD_NOT_FOUND(NOT_FOUND, "해당 비밀번호를 찾을 수 없습니다.", "notFound"),
     TYPE_NOT_FOUND(NOT_FOUND,"해당 타입을 찾을 수 없습니다.", ""),
     ARTICLE_NOT_FOUND(NOT_FOUND,"해당 게시글을 찾을 수 없습니다.", ""),
     CATEGORY_NOT_FOUND(NOT_FOUND,"해당 카테고리를 찾을 수 없습니다.", ""),

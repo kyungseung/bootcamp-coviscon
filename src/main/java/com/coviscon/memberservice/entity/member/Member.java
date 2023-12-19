@@ -22,6 +22,8 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String password; // 비번
     @Column(nullable = false)
+    private String encryptedPassword; // 암호화 된 pw
+    @Column(nullable = false)
     private String nickName; // 닉네임
     private String tel; // 전화 번호
 
@@ -38,6 +40,7 @@ public class Member extends BaseTimeEntity {
         return Member.builder()
                 .email(memberRequestDto.getEmail())
                 .password(memberRequestDto.getPassword())
+                .encryptedPassword(memberRequestDto.getEncryptedPassword())
                 .nickName(memberRequestDto.getNickName())
                 .role(setMemberRole(memberRequestDto.getRole()))
                 .build();
@@ -55,4 +58,13 @@ public class Member extends BaseTimeEntity {
                 return Role.ROLE_STUDENT;
         }
     }
+
+    public void updatePassword(String nextPw) {
+        this.password = nextPw;
+    }
+
+    public void updateEncryptedPassword(String nextPw) {
+        this.encryptedPassword = nextPw;
+    }
+
 }

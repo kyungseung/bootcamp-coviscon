@@ -8,4 +8,7 @@ public interface AuthService extends UserDetailsService {
 
     MemberResponseDto login(MemberRequestDto memberRequestDto);
     MemberResponseDto join(MemberRequestDto memberRequestDto);
+
+    boolean validateEmail(String email);
+    boolean validateNickName(String nickName);
 }

@@ -56,9 +56,9 @@ dependencies {
 	/* spring boot actuator */
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	/* spring cloud config */
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	/* spring cloud bootstrap */
-	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	/* spring cloud bus & amqp */
 	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 	/* spring cloud feign client */

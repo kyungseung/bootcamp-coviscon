@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<div layout:fragment="content">
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+        <ol>
+          <li><a href="#">마이페이지</a></li>
+          <li><a th:href="${@environment.getProperty('prefix.url')} + 'member/settings'">회원정보 수정</a></li>
+        </ol>
+        <h2>회원정보 수정</h2>
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section id="join" class="join d-flex align-items-center">
+      <div class="container">
+        <div class="input-form-backgroud row">
+          <div class="input-form col-md-12 mx-auto">
+            <h4 class="fw-bolder text-center">회원정보 수정</h4>
+            <p class="text-center">비밀번호 변경 / 회원 탈퇴</p>
+
+            <form class="validation-form" th:action="${@environment.getProperty('prefix.url')} + 'member/settings/changePw'" method="post">
+              <div class="mb-4">
+                <label for="prePw">현재 비밀번호</label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="prePw" name="prePassword">
+                </div>
+              </div>
+              <div class="mb-4">
+                <label for="nextPw">새 비밀번호</label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="nextPw" name="nextPassword">
+                </div>
+              </div>
+              <div class="d-grid gap-2 mb-4">
+                <button class="btn btn-lg btn-primary" type="submit">변경하기</button>
+              </div>
+            </form>
+            <!-- 회원탈퇴 폼 -->
+            <form th:action="${@environment.getProperty('prefix.url')} + 'member/settings/deleteMember'" method="post" onsubmit="return confirm('정말로 회원을 탈퇴하시겠습니까?')">
+              <button type="submit" class="btn btn-outline-danger mx-2">회원탈퇴</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
+  </main>
+</div>
+</html>

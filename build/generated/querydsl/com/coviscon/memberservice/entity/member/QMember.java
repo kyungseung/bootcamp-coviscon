@@ -29,6 +29,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath email = createString("email");
 
+    public final StringPath encryptedPassword = createString("encryptedPassword");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited

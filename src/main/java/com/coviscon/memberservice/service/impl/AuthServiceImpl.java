@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
             .orElseThrow(() -> new CustomException(ErrorCode.LOGIN_FAIL));
 
         /* password 틀릴 시 exception */
-        if (!passwordEncoder.matches(memberRequestDto.getPassword(), member.getPassword())) {
+        if (!passwordEncoder.matches(memberRequestDto.getPassword(), member.getEncryptedPassword())) {
             throw new CustomException(ErrorCode.LOGIN_FAIL);
         }
 
@@ -68,21 +68,33 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public MemberResponseDto join(MemberRequestDto memberRequestDto) {
         /* 이미 있는 회원인지 검증 */
-        if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
-            throw new CustomException(ErrorCode.VALID_EMAIL);
-        }
+//        if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
+//            throw new CustomException(ErrorCode.VALID_EMAIL);
+//        }
+//
+//        if (memberRepository.existsByNickName(memberRequestDto.getNickName())) {
+//            throw new CustomException(ErrorCode.VALID_NICK_NAME);
+//        }
 
-        if (memberRepository.existsByNickName(memberRequestDto.getNickName())) {
-            throw new CustomException(ErrorCode.VALID_NICK_NAME);
-        }
-
-        memberRequestDto.setPassword(passwordEncoder.encode(memberRequestDto.getPassword()));
+        memberRequestDto.setEncryptedPassword(passwordEncoder.encode(memberRequestDto.getPassword()));
         Member member = Member.createUser(memberRequestDto);
 
         Member savedMember = memberRepository.save(member);
 
         ModelMapper mapper = new ModelMapper();
         return mapper.map(savedMember, MemberResponseDto.class);
+    }
+
+    @Override
+    @Transactional
+    public boolean validateEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    @Transactional
+    public boolean validateNickName(String nickName) {
+        return memberRepository.existsByNickName(nickName);
     }
 
     private void setSession(Member member) {

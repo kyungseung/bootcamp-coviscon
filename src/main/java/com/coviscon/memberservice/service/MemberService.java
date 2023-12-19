@@ -10,12 +10,10 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 
 public interface MemberService {
 
-    MemberQna searchAllMemberQna(String email);
+    void changedPassword(String email, String prePw, String nextPw);
+    void deleteMember(String email);
 
-    MemberCart searchCart(String email);
+    String searchEmailByNickName(String nickname);
 
-    TeacherLecture searchTeacherLectures(String email, LectureSearchCondition condition);
-
-    TeacherQna searchAllTeacherQna(String email);
-
+    String searchPasswordByEmailAndNickName(String email, String nickname);
 }

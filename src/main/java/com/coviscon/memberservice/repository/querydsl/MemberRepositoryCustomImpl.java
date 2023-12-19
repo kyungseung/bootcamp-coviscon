@@ -31,4 +31,25 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom{
                 .where(member.email.eq(email))
                 .fetchOne());
     }
+
+    @Override
+    public String searchEmailByNickName(String nickname) {
+        return queryFactory
+            .select(member.email)
+            .from(member)
+            .where(member.nickName.eq(nickname))
+            .fetchOne();
+    }
+
+    @Override
+    public String searchPasswordByEmailAndNickName(String email, String nickname) {
+        return queryFactory
+            .select(member.password)
+            .from(member)
+            .where(
+                member.email.eq(email),
+                member.nickName.eq(nickname)
+            )
+            .fetchOne();
+    }
 }

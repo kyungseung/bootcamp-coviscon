@@ -2,6 +2,56 @@
 server:
   port: 0
 
+# application set
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 384673275574-bcp4vgvh2tr3qf4jcocjhu3cq32ornu5.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "http://127.0.0.1:8000/member-service/login/oauth2/code/google"
+            #            authorization-grant-type: authoriztion_code
+            scope: email
+  application:
+    name: member-service
+  # zipkin set
+  #  zipkin:
+  #    base-url: http://127.0.0.1:9411
+  #    enabled: true
+  # sleuth set
+  #  sleuth:
+  #    sampler:
+  #      probability: 1.0
+  # rabbitmq set
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  # DB set
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/member_service
+#    url: jdbc:mariadb://maria-db.cmz9e6rcga58.ap-northeast-2.rds.amazonaws.com:3306/member_service
+    username: root
+    password: 1234
+#    password: '{cipher}AQAdyuGVHLb9FWFbnqywiLX5yAg6KXTll08MQWrdjl6RoUUjbeDyurgc8S1pMWQykqJprnH2Zi/Js5Q1mEkxteUGtSzq5NW7n85qXN5ds9ORDgRa2IdQ8/G9hZjwZ68OV09/xMZdMSuBaaKynYoVhk1Xd+3Ddg0mhiiIvQYovFsueOw3q2uZ1ks59JVu46vwO109E04oeSGpOngoygZrfLfXuQgp9Jflh8D4hSKIoVWWiD2uizUH+kbeRXodw4WYj3KEgi4PzRj9woEqSd7ePIKDF0lsY/Uhl3NrFYpbl5eY26p3Mh/2wlNS55zKQjAznaV7bF1V/aMlwnaGTmEhskhKiP4E44P5P56CrhZ4Nwiln7jH0qsZLppwXzUQCsJciIc='
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 1234
+  session:
+    store-type: redis
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
 # eureka client set
 eureka:
   client:
@@ -27,8 +77,11 @@ management:
 
 
 redirect:
-  url: 'redirect:http://127.0.0.1:8000/member-service/'
+  url: 'redirect:http://3.39.96.34:8000/member-service/'
 
 prefix:
-  url: 'http://127.0.0.1:8000/member-service/'
+  url: 'http://3.39.96.34:8000/member-service/'
+  item: 'http://3.39.96.34:8000/item-service/'
+  post: 'http://3.39.96.34:8000/post-service/'
+  order: 'http://3.39.96.34:8000/order-service/'
 
