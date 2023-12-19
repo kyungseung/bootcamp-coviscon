@@ -8,17 +8,17 @@
     <title>COVISCON - 속이 편안한 코딩 공작소</title>
 
     <!-- config fragment -->
-    <th:block th:replace="/fragments/config :: configFragment"></th:block>
+    <th:block th:replace="fragments/config :: configFragment"></th:block>
 </head>
 
 <body>
 <!-- header fragment -->
-<th:block th:replace="/fragments/header :: headerFragment"></th:block>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
 
 <!-- Body content -->
 <div layout:fragment="content"></div>
 
 <!-- footer content -->
-<th:block th:replace="/fragments/footer :: footerFragment"></th:block>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </body>
 </html>
