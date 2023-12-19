@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+
+<div layout:fragment="content">
+    <main>
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a th:href="${@environment.getProperty('prefix.url')} + 'teacher/lecture/list'">내 강의</a></li>
+                </ol>
+                <h2>내가 등록한 강의 목록</h2>
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="inner-page">
+            <div class="container">
+                <!-- 검색창 -->
+                <form th:action="${@environment.getProperty('prefix.url')} + 'teacher/lecture/list'" method="get">
+                    <div id="select_box" class="d-flex justify-content-center">
+
+                        <select name="search" class="form-select" aria-label="Default select example">
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                            <option value="titleContent">제목+내용</option>
+                        </select>
+
+                        <span class="searchInput">
+                            <input type="text" class="form-control" name="keyword" style="margin-right: 5px;"/>
+                            <input type="submit" class="btn btn-primary" value="검색"/>
+                        </span>
+                    </div>
+                </form>
+
+                <div class="d-grid gap-2">
+                    <div class="js-action-btn" style="margin-bottom: 10px">
+                        <button class="btn btn-primary float-end"><a style="color: #f5f5f5" th:href="${@environment.getProperty('prefix.url')} + 'lecture/save'">새 강의 등록</a></button>
+                    </div>
+                </div>
+
+                <!-- 강의 목록 -->
+                <div class="row">
+                    <div th:each="item : ${lectureList}" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="card card-small">
+                            <div class="thumbnail">
+                                <img class="lecture-img" th:src="${@environment.getProperty('prefix.url')} + 'image/' + ${item.thumbnailFileName}" width="300" height="230" />
+                                <a th:href="${@environment.getProperty('prefix.url')} + @{teacher/lecture/{id}/detail(id=${item.id})}">
+                                    <div class="thumb-cover"></div>
+                                </a>
+                                <div class="details">
+                                    <div class="user">
+                                        <div class="name"> <p th:text="${item.teacherName}"></p></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="card-info">
+                                <div class="moving">
+                                    <a th:text="${item.title}"
+                                       th:href="${@environment.getProperty('prefix.url')} + @{teacher/lecture/{id}/detail(id=${item.id})}"></a>
+                                    <p th:text="${item.price}+ '원'"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!--        <div>-->
+<!--            <ul style="list-style: none; margin: 10px">-->
+<!--                &lt;!&ndash; 첫번째 페이지로 이동 &ndash;&gt;-->
+<!--                <li style="float: left; margin: 5px"><a th:href="@{/item-service/teacher/lecture/list(page=0, size=5)}">첫 페이지 </a></li>-->
+<!--                &lt;!&ndash; 이전 링크 활성화 비활성화 &ndash;&gt;-->
+<!--                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">-->
+<!--                        &lt;!&ndash; 현재페이지는 링크 없이 숫자만 &ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <span th:if="${page == lectureList.number + 1}"></span>&ndash;&gt;-->
+<!--                        <li style="float:left; margin: 5px">-->
+<!--                            <a th:href="@{/item-service/teacher/lecture/list(page=${page},size=5)}" th:text="${page} + 1"></a>-->
+<!--                        </li>-->
+<!--                    </span>-->
+<!--                &lt;!&ndash; 마지막 페이지로 이동 &ndash;&gt;-->
+<!--                <li style="float: left; margin: 5px;"><a th:href="@{/item-service/lecture/list(page=${endPage}, size=5)}"> 마지막 페이지 </a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+    </main><!-- End #main -->
+</div>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+</html>
