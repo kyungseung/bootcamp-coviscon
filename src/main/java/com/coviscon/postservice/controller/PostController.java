@@ -68,7 +68,7 @@ public class PostController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("postLists", postLists);
 
-        return "/post/list";
+        return "post/list";
     }
 
     /*
