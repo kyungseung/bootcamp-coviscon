@@ -69,36 +69,28 @@ public class ItemServiceImpl implements ItemService {
         itemRepository.save(book1);
         Book book2 = Book.addBook("그림으로 이해하는 AWS 구조와 기술", "오가사와라 시게타카", "길벗", "https://www.yes24.com/Product/Goods/102368122", "aws1.png", Category.AWS);
         itemRepository.save(book2);
-        Book book3 = Book.addBook("업무에 바로 쓰는 AWS 입문", "김성민", "한빛미디어", "https://www.yes24.com/Product/Goods/116626210", "aws2.png", Category.AWS);
-        itemRepository.save(book3);
-        Book book4 = Book.addBook("AWS 교과서", "김원일", "길벗", "https://www.yes24.com/Product/Goods/123016650", "aws3.png", Category.AWS);
-        itemRepository.save(book4);
+//        Book book3 = Book.addBook("업무에 바로 쓰는 AWS 입문", "김성민", "한빛미디어", "https://www.yes24.com/Product/Goods/116626210", "aws2.png", Category.AWS);
+//        itemRepository.save(book3);
+//        Book book4 = Book.addBook("AWS 교과서", "김원일", "길벗", "https://www.yes24.com/Product/Goods/123016650", "aws3.png", Category.AWS);
+//        itemRepository.save(book4);
         Book book5 = Book.addBook("Docker 도커 실전 가이드", "사쿠라이 요이치로", "영진닷컴", "https://www.yes24.com/Product/Goods/101878731", "docker1.png", Category.DOCKER);
         itemRepository.save(book5);
-        Book book6 = Book.addBook("도커, 컨테이너 빌드업!", "이현룡", "제이펍", "https://www.yes24.com/Product/Goods/105756626", "docker2.png", Category.DOCKER);
-        itemRepository.save(book6);
-        Book book7 = Book.addBook("제대로 배우는 도커", "아드리안 모트", "비제이퍼블릭", "https://product.kyobobook.co.kr/detail/S000001890811", "docker3.png", Category.DOCKER);
-        itemRepository.save(book7);
+//        Book book6 = Book.addBook("도커, 컨테이너 빌드업!", "이현룡", "제이펍", "https://www.yes24.com/Product/Goods/105756626", "docker2.png", Category.DOCKER);
+//        itemRepository.save(book6);
+//        Book book7 = Book.addBook("제대로 배우는 도커", "아드리안 모트", "비제이퍼블릭", "https://product.kyobobook.co.kr/detail/S000001890811", "docker3.png", Category.DOCKER);
+//        itemRepository.save(book7);
         Book book8 = Book.addBook("젠킨스 2 시작하기", "브렌트 래스터", "에이콘출판사", "https://www.yes24.com/Product/Goods/70894020", "jenkins1.png", Category.JENKINS);
         itemRepository.save(book8);
-        Book book9 = Book.addBook("초보를 위한 젠킨스 2 활용 가이드 2/e", "니킬 파타니아", "에이콘출판사", "https://www.yes24.com/Product/Goods/64691711", "jenkins2.png", Category.JENKINS);
-        itemRepository.save(book9);
-        Book book10 = Book.addBook("젠킨스 마스터", "조나단 맥앨리스터", "에이콘출판사", "https://www.yes24.com/Product/Goods/60568781", "jenkins3.png", Category.JENKINS);
-        itemRepository.save(book10);
-        Book book11 = Book.addBook("쿠버네티스 교과서", "엘튼 스톤맨", "길벗", "https://www.yes24.com/Product/Goods/121992570", "kubernetes1.png", Category.KUBERNETES);
-        itemRepository.save(book11);
-        Book book12 = Book.addBook("쿠버네티스 입문", "정원천", "동양북스", "https://www.yes24.com/Product/Goods/85578606", "kubernetes2.png", Category.KUBERNETES);
-        itemRepository.save(book12);
+//        Book book9 = Book.addBook("초보를 위한 젠킨스 2 활용 가이드 2/e", "니킬 파타니아", "에이콘출판사", "https://www.yes24.com/Product/Goods/64691711", "jenkins2.png", Category.JENKINS);
+//        itemRepository.save(book9);
+//        Book book10 = Book.addBook("젠킨스 마스터", "조나단 맥앨리스터", "에이콘출판사", "https://www.yes24.com/Product/Goods/60568781", "jenkins3.png", Category.JENKINS);
+//        itemRepository.save(book10);
+//        Book book11 = Book.addBook("쿠버네티스 교과서", "엘튼 스톤맨", "길벗", "https://www.yes24.com/Product/Goods/121992570", "kubernetes1.png", Category.KUBERNETES);
+//        itemRepository.save(book11);
+//        Book book12 = Book.addBook("쿠버네티스 입문", "정원천", "동양북스", "https://www.yes24.com/Product/Goods/85578606", "kubernetes2.png", Category.KUBERNETES);
+//        itemRepository.save(book12);
         Book book13 = Book.addBook("24단계 실습으로 정복하는 쿠버네티스", "이정훈", "위키북스", "https://www.yes24.com/Product/Goods/115187666", "kubernetes3.png", Category.KUBERNETES);
         itemRepository.save(book13);
-
-        Item item = itemRepository.findById(1L).get();
-
-        for (int i = 0; i < 5; i++) {
-            Qna qna = Qna.addQna("질문이 있어요! " + i, "spring을 잘하고 싶어요" + i, 10L, "코딩으로우주정복", item);
-            postRepository.save(qna);
-        }
-
     }
 
     @Override
