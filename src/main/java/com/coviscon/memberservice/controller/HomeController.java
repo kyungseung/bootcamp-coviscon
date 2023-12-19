@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping(value = {"", "/"})
     public String home(HttpSession session, Model model) {
 
         if (session.getAttribute("member") != null) {
