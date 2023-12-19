@@ -127,7 +127,9 @@
                                 }
 
                                 // localhost를 서버 IP로 변경하면 됨
-                                const url = "[[${prefix.tus}]]";
+                                const url = `http://3.39.96.34:8000/item-service`;
+                                const prefix = "[[${prefix.tus}]]"
+                                console.log('prefix.tus : ' + prefix)
 
                                 try {
                                     let start = new Date();
