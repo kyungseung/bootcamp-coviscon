@@ -36,3 +36,4 @@ prefix:
   url: 'http://3.39.96.34:8000/post-service/'
   item: 'http://3.39.96.34:8000/item-service/'
   member: 'http://3.39.96.34:8000/member-service/'
+  order: 'http://3.39.96.34:8000/order-service/'
