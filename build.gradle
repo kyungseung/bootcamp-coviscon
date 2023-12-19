@@ -62,7 +62,7 @@ dependencies {
 	/* spring cloud bus & amqp */
 	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 	/* spring cloud feign client */
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	/* resilience4j */
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 	/* kafka */
