@@ -1,7 +1,7 @@
 # get config file
-#spring:
-#  cloud:
-#    config:
-#      uri: http://127.0.0.1:8888
-#      # main file name
-#      name:
+spring:
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888
+      # main file name
+      name: api-gateway-service
