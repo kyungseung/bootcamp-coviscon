@@ -60,7 +60,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="${@environment.getProperty('prefix.url')} + 'auth/login'" method="post">
+                    <form th:action="${@environment.getProperty('prefix.member')} + 'auth/login'" method="post">
                         <div class="mb-3">
                             <input type="text" class="form-control" id="email" name="email" placeholder="아이디">
                         </div>
@@ -79,7 +79,6 @@
                             <a th:href="${@environment.getProperty('prefix.member')} + 'oauth2/authorization/google'"
                                type="button" class="btn btn-outline-secondary">Google 아이디로 로그인</a>
                         </div>
-
                     </form>
                 </div>
             </div>
