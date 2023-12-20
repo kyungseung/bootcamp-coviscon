@@ -28,7 +28,7 @@ management:
 image:
   save:
 #    path: src/main/resources/static/image
-    path: /images
+    path: ./images
 
 # path set
 redirect:
