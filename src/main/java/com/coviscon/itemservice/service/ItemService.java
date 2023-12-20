@@ -29,6 +29,6 @@ public interface ItemService {
     void updateLecture(RequestCreateLecture requestCreateLecture, MemberResponseDto member);
     Page<ResponsePostList> searchPostKeyword(String search, String keyword, Long itemId, Pageable pageable);
 
-    void uploadImg(MultipartFile multipartFile) throws IOException;
+    String uploadImg(MultipartFile multipartFile) throws IOException;
 
 }

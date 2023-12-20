@@ -49,10 +49,11 @@ public class ItemApiController {
 
         String fileContent = file.getOriginalFilename();
         requestCreateLecture.setRealVideoName(fileContent);
-        requestCreateLecture.setThumbnailFileName(img.getOriginalFilename());
 
         log.info("[itemApiController createNewLecture] RequestCreateLecture2 : {}", requestCreateLecture);
-        itemService.uploadImg(img);
+        String savedImageName = itemService.uploadImg(img);
+        requestCreateLecture.setThumbnailFileName(savedImageName);
+
         itemService.createNewLecture(requestCreateLecture, member);
 
         log.info("[itemApiController createNewLecture] file size : {}", file.getSize());
@@ -78,9 +79,9 @@ public class ItemApiController {
 
         String fileContent = file.getOriginalFilename();
         requestCreateLecture.setRealVideoName(fileContent);
-        requestCreateLecture.setThumbnailFileName(img.getOriginalFilename());
 
-        itemService.uploadImg(img);
+        String savedImageName = itemService.uploadImg(img);
+        requestCreateLecture.setThumbnailFileName(savedImageName);
         itemService.updateLecture(requestCreateLecture, member);
 
         HttpHeaders headers = new HttpHeaders();

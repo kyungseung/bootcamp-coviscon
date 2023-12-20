@@ -254,7 +254,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void uploadImg(MultipartFile multipartFile) throws IOException {
+    public String uploadImg(MultipartFile multipartFile) throws IOException {
         File uploadDir = new File(String.valueOf(Paths.get(savedImage)));
 
         if (!uploadDir.exists()) {
@@ -266,6 +266,8 @@ public class ItemServiceImpl implements ItemService {
         String saveImageName = UUID.randomUUID() + extension;
         File saveFile = new File(uploadDir, saveImageName);
         FileCopyUtils.copy(multipartFile.getBytes(), saveFile);
+
+        return saveImageName;
     }
 
     private String findExtension(String originalFilename) {

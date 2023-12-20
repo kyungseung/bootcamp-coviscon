@@ -47,7 +47,7 @@
                         <div class="card card-small">
                             <div class="thumbnail">
 <!--                                <img class="lecture-img" th:src="${@environment.getProperty('prefix.url')} + 'image/' + ${item.thumbnailFileName}" width="300" height="230" />-->
-                                <img class="lecture-img" th:src="'image/' + ${item.thumbnailFileName}" width="300" height="230" />
+                                <img class="lecture-img" th:src="${@environment.getProperty('image.file.path')} + ${item.thumbnailFileName}" width="300" height="230" />
                                 <a th:href="${@environment.getProperty('prefix.url')} + @{teacher/lecture/{id}/detail(id=${item.id})}">
                                     <div class="thumb-cover"></div>
                                 </a>
