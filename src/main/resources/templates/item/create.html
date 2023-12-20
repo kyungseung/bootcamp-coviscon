@@ -94,13 +94,14 @@
 
                             <div class="d-grid gap-2">
                                 <div class="js-action-btn">
-                                    <button class="btn btn-primary" id="multipartInputBtn" type="button">업로드 시작
+<!--                                    <button class="btn btn-primary" id="multipartInputBtn" type="button">업로드 시작-->
+                                    <button class="btn btn-primary" id="multipartInputBtn">업로드 시작
                                     </button>
-                                    <button class="btn btn-outline-primary" id="abortUploadBtn" type="button">업로드 중단
+<!--                                    <button class="btn btn-outline-primary" id="abortUploadBtn" type="button">업로드 중단-->
+                                    <button class="btn btn-outline-primary" id="abortUploadBtn">업로드 중단
                                     </button>
                                 </div>
                             </div>
-
 
                             <hr class="mb-4">
                             <div class="d-grid gap-2">
@@ -205,13 +206,6 @@
                                     const dataDiv = document.querySelector('#data-pre');
                                     dataDiv.innerHTML = '';
                                     dataDiv.innerHTML += `<input type="hidden" id="subVideoName" name="subVideoName" value="${fileNameFromResponse}">`;
-
-                                    // dataDiv.innerHTML = `<input type="hidden" id="subVideoName" name="subVideoName" value="${completeUpload.fileName}">`;
-
-                                    // let fileNameToUse = completeUpload.fileName || completeUpload.data;
-                                    //
-                                    // dataDiv.innerHTML = `<input type="hidden" id="subVideoName" name="subVideoName" value="${fileNameToUse}">`;
-
                                 } catch (err) {
                                     console.log(err, err.stack);
                                 }
