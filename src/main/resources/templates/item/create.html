@@ -111,7 +111,6 @@
                                 integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
                                 crossorigin="anonymous"></script>
                         <script th:inline="javascript">
-                            console.log("aaa")
                             var itemUrl = [[${@environment.getProperty('prefix.order')}]];
 
                             document.getElementById('multipartInputBtn').addEventListener('click', async () => {
@@ -121,7 +120,6 @@
                                 const fileName = file.name;
                                 const fileSize = file.size;
 
-                                console.log("whywhy");
                                 // 3GB가 넘어가는 파일 업로드 제한
                                 if (fileSize > 3 * 1024 * 1024 * 1024) {
                                     alert('The file you are trying to upload is too large. (under 3GB)');
