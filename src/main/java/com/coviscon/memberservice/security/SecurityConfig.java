@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .and()
 
                 .oauth2Login()
+                .loginPage("/loginForm")
                 .failureHandler(customFailureHandler) /* 로그인 실패 핸들러 */
                 .defaultSuccessUrl("http://3.39.96.34:8000/member-service/") //OAuth 구글 로그인이 성공하면 이동할 uri 설정
                 .userInfoEndpoint() // 로그인 완료 후 회원 정보 받기
