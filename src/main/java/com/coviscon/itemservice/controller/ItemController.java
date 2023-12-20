@@ -174,7 +174,6 @@ public class ItemController {
     }
 
     /** 강의 등록용 페이지 이동 **/
-    @CrossOrigin
     @GetMapping("/lecture/save")
     public String tusUploadPage(Model model) {
         log.info("[ItemController tusUploadPage]");
