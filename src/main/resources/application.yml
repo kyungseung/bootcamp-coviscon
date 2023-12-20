@@ -35,7 +35,6 @@ redirect:
 
 prefix:
   url: 'http://3.39.96.34:8000/item-service/'
-  tus: 'http://3.39.96.34:8000/item-service'
   order: 'http://3.39.96.34:8000/order-service/'
   post: 'http://3.39.96.34:8000/post-service/'
   member: 'http://3.39.96.34:8000/member-service/'
