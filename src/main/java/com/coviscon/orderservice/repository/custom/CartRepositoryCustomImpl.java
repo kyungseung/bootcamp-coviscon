@@ -8,7 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.coviscon.orderservice.entity.item.QCart.cart;
+import static com.coviscon.orderservice.entity.QCart.cart;
+
 
 @Slf4j
 public class CartRepositoryCustomImpl implements CartRepositoryCustom {
