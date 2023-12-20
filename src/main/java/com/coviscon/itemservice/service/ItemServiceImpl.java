@@ -259,7 +259,7 @@ public class ItemServiceImpl implements ItemService {
 
             File file = new File(String.valueOf(filePath));
             multipartFile.transferTo(file);
-            
+
 //            try (OutputStream os = Files.newOutputStream(filePath)) {
 //                os.write(multipartFile.getBytes());
 //            } catch (IOException e) {
