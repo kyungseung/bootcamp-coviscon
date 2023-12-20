@@ -71,7 +71,7 @@ public class ItemApiController {
     public ResponseEntity<?> updateLecture(
             @ModelAttribute RequestCreateLecture requestCreateLecture,
             @RequestParam("filename") MultipartFile file,
-            @RequestParam("img") MultipartFile img) {
+            @RequestParam("img") MultipartFile img) throws IOException {
         log.info("[itemApiController updateLecture] RequestCreateLecture : {}", requestCreateLecture);
 
         MemberResponseDto member = setMemberResponseDto();
