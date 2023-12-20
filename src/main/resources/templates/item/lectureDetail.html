@@ -24,7 +24,7 @@
                 <div class="col-lg-7">
                     <div class="repImgDiv">
 <!--                        <img class="rounded img-fluid repImg" th:src="${@environment.getProperty('prefix.url')} + ${@environment.getProperty('image.save.path')} + ${itemDetail.thumbnailFileName}" />-->
-                        <img class="rounded img-fluid repImg" th:src="@{~/image/testspring.png}"/>
+                        <img class="rounded img-fluid repImg" th:src="@{${#httpServletRequest.servletContext.contextPath} + '/image/testspring.png'}"/>
                     </div>
                 </div>
                 <div class="col-lg-5">
