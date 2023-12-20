@@ -255,7 +255,9 @@ public class ItemServiceImpl implements ItemService {
             Path filePath = Paths.get(savedImage, multipartFile.getOriginalFilename());
             log.info("[ItemServiceImpl uploadImg] filePath : {}", filePath);
             try (OutputStream os = Files.newOutputStream(filePath)) {
+                log.info("aaaaaaaaaaaaaaaaaaaaaakk");
                 os.write(multipartFile.getBytes());
+                log.info("asdfadsfadsfadsfsdafdsaf");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
