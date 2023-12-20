@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -250,17 +251,20 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void uploadImg(MultipartFile multipartFile) {
+    public void uploadImg(MultipartFile multipartFile) throws IOException {
         log.info("[ItemServiceImpl uploadImg] MultipartFile : {}", multipartFile);
         if (!multipartFile.isEmpty()) {
             Path filePath = Paths.get(savedImage, multipartFile.getOriginalFilename());
             log.info("[ItemServiceImpl uploadImg] filePath : {}", filePath);
+
+            File file = new File(String.valueOf(filePath));
+            multipartFile.transferTo(file);
+            
 //            try (OutputStream os = Files.newOutputStream(filePath)) {
-            try (OutputStream os = new FileOutputStream(String.valueOf(filePath))) {
-                os.write(multipartFile.getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+//                os.write(multipartFile.getBytes());
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
         }
 
     }

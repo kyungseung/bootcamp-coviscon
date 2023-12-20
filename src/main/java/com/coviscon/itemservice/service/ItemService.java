@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 public interface ItemService {
@@ -28,6 +29,6 @@ public interface ItemService {
     void updateLecture(RequestCreateLecture requestCreateLecture, MemberResponseDto member);
     Page<ResponsePostList> searchPostKeyword(String search, String keyword, Long itemId, Pageable pageable);
 
-    void uploadImg(MultipartFile multipartFile);
+    void uploadImg(MultipartFile multipartFile) throws IOException;
 
 }
