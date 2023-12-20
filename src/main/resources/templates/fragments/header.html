@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>COVISCON - 속이 편안한 코딩 공작소 </title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+</head>
+<body>
+
+<div th:fragment="headerFragment" class="header navbar-fixed-top">
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+            <a th:href="${@environment.getProperty('prefix.member')}" class="logo d-flex align-items-center">
+                <img th:src="${@environment.getProperty('prefix.url')} + 'assets/img/header.png'" alt="COVISCON">
+            </a>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto"
+                           th:href="${@environment.getProperty('prefix.item')} + 'lecture/list'">강의</a></li>
+                    <li><a class="nav-link scrollto"
+                           th:href="${@environment.getProperty('prefix.item')} + 'book/list'">교재</a></li>
+                    <li class="dropdown"><a th:href="${@environment.getProperty('prefix.post')} + 'list'"><span>커뮤니티</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a th:href="${@environment.getProperty('prefix.post')} + 'list'">질문 & 답변</a></li>
+                        </ul>
+                    </li>
+                    <li><a th:if="${session.memberId != null}" class="nav-link scrollto" th:href="${@environment.getProperty('prefix.url')} + 'cart/list'">장바구니</a></li>
+                    <li class="dropdown"><a th:if="${session.memberId != null}" href="#"><span>마이페이지</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a th:if="${session.role == 'ROLE_STUDENT'}" th:href="${@environment.getProperty('prefix.url')} + 'list'">구매한 강의</a></li>
+                            <li><a th:if="${session.role == 'ROLE_TEACHER'}" th:href="${@environment.getProperty('prefix.item')} + 'teacher/lecture/list'">내 강의</a></li>
+                            <li><a th:if="${session.role == 'ROLE_STUDENT'}" th:href="${@environment.getProperty('prefix.post')} + 'list'">내 질문</a></li>
+                            <li><a th:href="${@environment.getProperty('prefix.member')} + 'member/settings'">회원정보 수정</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a th:if="${session.memberId == null}" class="getstarted scrollto" data-bs-toggle="modal" data-bs-target="#loginModal">로그인/회원가입</a></li>
+                    <li><a th:if="${session.memberId != null}" th:href="@{${@environment.getProperty('prefix.member')} + 'auth/logout'}" class="getstarted scrollto">로그아웃</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+        </div>
+    </header><!-- End Header -->
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">로그인 또는 회원가입</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="${@environment.getProperty('prefix.member')} + 'auth/login'" method="post">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="아이디">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-lg btn-primary">로그인</button>
+                            <ul class="join-find">
+                                <li class="user-join"><a th:href="@{${@environment.getProperty('prefix.member')} + 'auth/join'}">회원가입</a></li>
+                                <li><a th:href="${@environment.getProperty('prefix.member')} + 'member/findEmailAndPw'">아이디/비밀번호 찾기</a></li>
+                            </ul>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a th:href="${@environment.getProperty('prefix.member')} + 'oauth2/authorization/google'"
+                               type="button" class="btn btn-outline-secondary">Google 아이디로 로그인</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

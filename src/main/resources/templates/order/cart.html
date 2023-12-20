@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<div layout:fragment="content">
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a th:href="${@environment.getProperty('prefix.url')} + @{payments/{imp_uid}(imp_uid=${imp_uid})}">장바구니</a></li>
+                </ol>
+                <h2>장바구니</h2>
+            </div>
+        </section>
+        <!-- End Breadcrumbs -->
+
+        <section class="inner-page d-flex align-items-center">
+            <div class="container">
+                <h1>구매하기</h1>
+                <h2>Step1 : 강의 선택</h2>
+                <hr style="border:0; height:1px; background: #bbb;">
+                <table border="1" id="result_data">
+                    <thead>
+                    <tr align="center">
+                        <th>상품 번호</th>
+                        <th>강좌</th>
+                        <th>강사</th>
+                        <th>가격</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:if="${cart.isEmpty()}">
+                        <tr align="center">
+                            <td colspan="7" >장바구니가 비었습니다.</td>
+                        </tr>
+                    </th:block>
+<!--                    <th:block th:each="item : ${cart}" th:unless="${cart.isEmpty()}">-->
+                    <th:block th:each="item : ${cart}" th:unless="${cart.isEmpty()}" >
+<!--                    <th:block th:each="item : ${cart}">-->
+                        <tr align="center">
+                            <td th:text="${item.itemId}"></td>
+                            <td th:text="${item.title}"></td>
+                            <td th:text="${item.teacherName}"></td>
+<!--                            <td th:text="${item.price >= 1000 ? #numbers.formatInteger(item.price, 3, 'COMMA') + '원' : item.price + '원'}"></>-->
+                            <td th:text="${item.price}"></td>
+                            <td>
+                                <button type="button" th:onclick="deleteCart([[${item.cartId}]])" ><span class="icons icon_del">삭제</span></button>
+
+                                <script>
+                                    function deleteCart(cartId) {
+                                        var orderUrl = "[[${@environment.getProperty('prefix.url')}]]";
+                                        console.log(cartId)
+
+                                        $.ajax({
+                                            url: orderUrl + cartId + '/delete',
+                                            type: 'DELETE',
+                                        }).done(function (result) {
+                                            alert("장바구니 삭제 완료")
+                                            location.href = orderUrl + 'cart/list';
+                                        }).fail(function (xhr, status, error) {
+                                            alert("통신 실패")
+                                        });
+                                    }
+                                </script>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td align="center">총 금액</td>
+                            <td colspan ="4" align="center"><span data-th-text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')} + '원'"></span></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div style="margin-top: 15px">
+<!--                    <input type="button" class="button" value="결제 진행하기" onclick="location.href = ${@environment.getProperty('prefix.url')} + 'create/order'" />-->
+                    <input type="button" class="button" value="결제 진행하기" onclick="redirectToCreateOrder()"  />
+<!--                    <div style="float:right;" th:text="${totalPrice} + '원'"></div>-->
+                </div>
+            </div>
+
+            <script>
+                function redirectToCreateOrder() {
+                    var orderUrl = "[[${@environment.getProperty('prefix.url')}]]";
+                    location.href = orderUrl + 'create/order';
+                }
+            </script>
+
+            <script>
+                function deleteAlert() {
+                    alert("해당 강의를 삭제 하였습니다.")
+                }
+            </script>
+        </section>
+    </main>
+</div>
+</html>

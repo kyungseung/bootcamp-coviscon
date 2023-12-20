@@ -1,0 +1,34 @@
+server:
+  port: 0
+
+# eureka set
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    # eureka server location
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+# log set
+logging:
+  level:
+    com.coviscon.orderservice: debug
+
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans, info, busrefresh, metrics, prometheus
+
+redirect:
+  url: 'redirect:http://3.39.96.34:8000/order-service/'
+
+prefix:
+  url: 'http://3.39.96.34:8000/order-service/'
+  item: 'http://3.39.96.34:8000/item-service/'
+  member: 'http://3.39.96.34:8000/member-service/'
+  post: 'http://3.39.96.34:8000/post-service/'

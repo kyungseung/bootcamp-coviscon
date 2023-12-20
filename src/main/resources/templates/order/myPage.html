@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<div layout:fragment="content">
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a href="#">마이페이지</a></li>
+                </ol>
+                <h2>나의 학습</h2>
+            </div>
+        </section>
+        <!-- End Breadcrumbs -->
+
+        <section class="inner-page d-flex align-items-center">
+            <div class="container">
+                <h1>구매 내역</h1>
+                <hr style="border:0; height:1px; background: #bbb;">
+                <table border="1" id="result_data">
+                    <thead>
+                    <tr align="center">
+                        <th>주문 번호</th>
+                        <th>거래 번호</th>
+                        <th>총가격</th>
+                        <th>주문 상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:if="${orderList.isEmpty()}">
+                        <tr align="center">
+                            <td colspan="4" >구매하신 강의가 없습니다.</td>
+                        </tr>
+                    </th:block>
+                    <th:block th:each="orders : ${orderList}" th:unless="${orderList.isEmpty()}">
+                        <!--                    <th:block th:each="item : ${cart}">-->
+                        <tr align="center">
+<!--                            <td th:text="${orders.orderId}"></td>-->
+                            <td><a th:text="${orders.orderId}" th:href="${@environment.getProperty('prefix.url')} + @{order/{orderId}/detail(orderId = ${orders.orderId})}"></a></td>
+                            <td th:text="${orders.merchantUid}"></td>
+<!--                            <td th:text="${orders.total_price}"></td>-->
+                            <td th:text="${#numbers.formatInteger(orders.total_price, 3, 'COMMA')} + '원'"></td>
+                            <td th:text="${orders.orderStatus}"></td>
+                            <td>
+                                <script>
+                                    function orderDetail() {
+                                        let orderUrl = "[[${@environment.getProperty('prefix.url')}]]";
+                                        let orderId = "[[${orders.orderId}]]"
+                                        let merchantUid = "[[${orders.merchantUid}]]"
+                                        console.log("orderId {}", orderId);
+
+                                        $.ajax({
+                                            // url: orderUrl +'subscribe/member/' + merchantUid,
+                                            url: orderUrl +'payments/cancel',
+                                            type: 'POST',
+                                        }).done(function (result) {
+
+                                            console.log("orderDetail orderId =", orderId);
+                                            location.href = orderUrl + orderId + '/detail'
+                                            // location.href = "https://iniweb.inicis.com/receipt/iniReceipt.jsp"
+                                            // 거래 정보가 없습니다..
+                                        }).fail(function (xhr, status, error) {
+                                            alert("통신 실패")
+                                        });
+                                    }
+                                </script>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</html>

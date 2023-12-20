@@ -1,0 +1,130 @@
+/* querydsl */
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.17'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	/* querydsl */
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+group = 'com.coviscon'
+version = '1.0'
+
+java {
+	sourceCompatibility = '11'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
+
+ext {
+	set('springCloudVersion', "2021.0.8")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	/* querydsl */
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+	/* spring boot actuator */
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	/* spring cloud config */
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	/* spring cloud bootstrap */
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	/* spring cloud bus & amqp */
+  implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+	/* spring cloud feign client */
+//	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	/* resilience4j */
+	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+	/* kafka */
+//	implementation 'org.springframework.kafka:spring-kafka'
+	/* spring cloud sleuth */
+//	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	/* zipkin */
+//	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
+	/* micrometer */
+//	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	/* Model Mapper */
+	implementation 'org.modelmapper:modelmapper:2.3.8'
+	/* jwt */
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	/* thymeleaf */
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+	/* json */
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
+	implementation 'com.google.code.gson:gson'
+
+	implementation 'com.squareup.retrofit2:converter-gson'
+
+	/* iamport */
+	implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+
+	/* redis */
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.session:spring-session-data-redis'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('bootBuildImage') {
+	builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+/* querydsl */
+/* querydsl 파일 저장할 경로를 String 으로 저장 */
+def querydslDir = "$buildDir/generated/querydsl"
+/* jpa 사용, querydsl 경로 설정 */
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+/* main.java.src 폴더 내에서 사용 */
+sourceSets {
+	main.java.srcDir querydslDir
+}
+/* querydsl 컴파일 경로 */
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+/* 컴파일 */
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}

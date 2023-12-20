@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<div layout:fragment="content">
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a href="#">마이페이지</a></li>
+                </ol>
+                <h2>나의 학습</h2>
+            </div>
+        </section>
+        <!-- End Breadcrumbs -->
+
+        <section class="inner-page d-flex align-items-center">
+            <div class="container">
+                <h1>주문 상세 내역</h1>
+                <hr style="border:0; height:1px; background: #bbb;">
+                <table border="1" id="result_data">
+                    <thead>
+                    <tr align="center">
+                        <th>강의명</th>
+                        <th>강사명</th>
+                        <th>가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="order : ${orderList}" >
+                        <tr align="center">
+                            <td th:text="${order.title}"></td>
+                            <td th:text="${order.teacherName}"></td>
+                            <td th:text="${#numbers.formatInteger(order.price, 3, 'COMMA')} + '원'"></td>
+
+                        </tr>
+                    </th:block>
+                    </tbody>
+                    <tfoot>
+                    <th:block th:each="order : ${orderList}" >
+                    <tr>
+                        <td align="center">총 금액</td>
+                        <td colspan ="4" align="center"><span data-th-text="${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')} + '원'"></span></td>
+                    </tr>
+                    </th:block>
+                    </tfoot>
+                </table>
+
+            </div>
+
+        </section>
+    </main>
+</div>
+</html>

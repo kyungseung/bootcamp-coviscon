@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<div layout:fragment="content">
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a th:href="${@environment.getProperty('prefix.url')} + 'cart/list'">구매하기</a></li>
+                </ol>
+                <h2>결제</h2>
+            </div>
+        </section>
+        <!-- End Breadcrumbs -->
+
+        <section class="inner-page d-flex align-items-center">
+            <div class="container">
+
+                <h2>신청하기</h2>
+                <h3>Step2 : 결제</h3>
+                <hr style="border:0; height:1px; background: #bbb;">
+                ** 선택 강의 내역을 확인해주세요
+                <br/>
+                <h4>신청자 정보</h4>
+                <br/>
+                <p>이름 : <th:block th:text="${member.getNickName()}" readonly /></p>
+                <p>이메일 주소 : <th:block th:text="${member.getEmail()}" readonly /></p>
+
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>강의명</th>
+                        <th>강사명</th>
+                        <th>가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <th:block th:each="item : ${order.getCarts()}">
+                        <tr>
+                            <td th:text="${item.title}"></td>
+                            <td th:text="${item.teacherName}"></td>
+                            <td th:text="${item.price}"></td>
+                        </tr>
+                    </th:block>
+                    <th:block th:value="${order.getCarts().size()}"></th:block>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td align="center">결제 금액</td>
+                        <td colspan ="3" align="center"><p th:text="${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')} + '원'"></p></td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+                <hr style="border:0; height:1px; background: #bbb;">
+                <div>
+                    <hr style="border:0; height:1px; background: #bbb;">
+                    <label htmlFor="name">
+                        <input type="checkbox" id="name" name="이용약관" placeholder="동의하여 주시기 바랍니다." required >본인은 웹 사이트<a th:href="${@environment.getProperty('prefix.url')} + 'contract'">이용악관</a>을 읽었으며, 이에 동의합니다.</input>
+                        <button onclick="requestPay()">결제하기</button>
+                    </label>
+
+                </div>
+
+                <!-- iamport.payment.js -->
+                <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+                <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
+                <script>
+                    var orderUrl = "[[${@environment.getProperty('prefix.url')}]]";
+
+                    function requestPay() {
+                        console.log("orderUrl : " + orderUrl);
+
+                        let buyer_email = "[[${order.email}]]";
+                        console.log("email : " + buyer_email);
+
+                        let buyer_name = "[[${order.nickName}]]";
+                        console.log("buyer_name : " + buyer_name);
+
+                        let totalPrice = "[[${order.totalPrice}]]";
+                        console.log("totalPrice : " + totalPrice);
+
+                        let merchantUid = "[[${order.merchantUid}]]";
+                        // let title = "[[${order.carts.get(0).title}]]";
+                        console.log("merchantUid : " + merchantUid);
+
+                        let IMP = window.IMP;
+                        IMP.init("imp72554883");
+
+                        IMP.request_pay({
+                            pg: "html5_inicis",
+                            pay_method: "card",
+                            merchant_uid: merchantUid,
+                            name: 'title' + '외 ' + [[${order.getCarts().size() - 1}]] + '건',
+                            amount: totalPrice,
+                            buyer_email: buyer_email,
+                            buyer_name: buyer_name,
+                            buyer_tel: 'tel',
+                            buyer_addr: "addr",
+                            buyer_postcode: "postcode"
+                        }, function (rsp) {
+                            $.ajax({
+                                url: orderUrl + 'payments/' + rsp.imp_uid,
+                                type: 'POST',
+                            }).done(function (data) {
+                                if (rsp.paid_amount === data.response.amount) {
+                                    alert("결제 성공");
+                                    location.href = orderUrl + 'order/list';
+                                } else {
+                                    console.log("결제 실패");
+                                    alert("결제 실패");
+                                    location.href = orderUrl + 'cart/list';
+                                }
+                            }).fail(function (xhr, status, error) {
+                                console.log("AJAX 실패:", status, error);
+                                alert("AJAX 호출 실패");
+                            });
+                        });
+                    }
+                </script>
+            </div>
+        </section>
+    </main>
+</div>
+
+</html>
