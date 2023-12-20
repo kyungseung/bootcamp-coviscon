@@ -266,22 +266,8 @@ public class ItemServiceImpl implements ItemService {
         String saveImageName = UUID.randomUUID() + extension;
         File saveFile = new File(uploadDir, saveImageName);
         FileCopyUtils.copy(multipartFile.getBytes(), saveFile);
-
-//        log.info("[ItemServiceImpl uploadImg] MultipartFile : {}", multipartFile);
-//        if (!multipartFile.isEmpty()) {
-//            Path filePath = Paths.get(savedImage, multipartFile.getOriginalFilename());
-//            log.info("[ItemServiceImpl uploadImg] filePath : {}", filePath);
-//
-//            File file = new File(String.valueOf(filePath));
-//            multipartFile.transferTo(file);
-
-//            try (OutputStream os = Files.newOutputStream(filePath)) {
-//                os.write(multipartFile.getBytes());
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
     }
+
     private String findExtension(String originalFilename) {
         String[] split = originalFilename.split("\\.");
         return "." + split[split.length - 1];
