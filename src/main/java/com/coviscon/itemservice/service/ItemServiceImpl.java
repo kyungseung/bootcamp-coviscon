@@ -250,6 +250,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void uploadImg(MultipartFile multipartFile) {
+        log.info("[ItemServiceImpl uploadImg] MultipartFile : {}", multipartFile);
         if (!multipartFile.isEmpty()) {
             Path filePath = Paths.get(savedImage, multipartFile.getOriginalFilename());
             log.info("[ItemServiceImpl uploadImg] filePath : {}", filePath);

@@ -51,6 +51,7 @@ public class ItemApiController {
         requestCreateLecture.setRealVideoName(fileContent);
         requestCreateLecture.setThumbnailFileName(img.getOriginalFilename());
 
+        log.info("[itemApiController createNewLecture] RequestCreateLecture2 : {}", requestCreateLecture);
         itemService.uploadImg(img);
         itemService.createNewLecture(requestCreateLecture, member);
 
