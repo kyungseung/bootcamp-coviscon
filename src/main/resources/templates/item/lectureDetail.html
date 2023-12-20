@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-lg-7">
                     <div class="repImgDiv">
-                        <img class="rounded img-fluid repImg" th:src="${@environment.getProperty('image.file.path')} + ${itemDetail.thumbnailFileName}" />
+                        <img class="rounded img-fluid repImg" th:src="${@environment.getProperty('prefix.url')} + ${@environment.getProperty('image.save.path')} + ${itemDetail.thumbnailFileName}" />
                     </div>
                 </div>
                 <div class="col-lg-5">
