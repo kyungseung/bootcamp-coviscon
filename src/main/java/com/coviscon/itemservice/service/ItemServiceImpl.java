@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
@@ -34,6 +35,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 
 @Slf4j
@@ -252,21 +255,36 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void uploadImg(MultipartFile multipartFile) throws IOException {
-        log.info("[ItemServiceImpl uploadImg] MultipartFile : {}", multipartFile);
-        if (!multipartFile.isEmpty()) {
-            Path filePath = Paths.get(savedImage, multipartFile.getOriginalFilename());
-            log.info("[ItemServiceImpl uploadImg] filePath : {}", filePath);
+        File uploadDir = new File(String.valueOf(Paths.get(savedImage)));
 
-            File file = new File(String.valueOf(filePath));
-            multipartFile.transferTo(file);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        // uuid를 생성, 이미지명 설정해 파일 저장 후, 반환
+        String extension = findExtension(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        String saveImageName = UUID.randomUUID() + extension;
+        File saveFile = new File(uploadDir, saveImageName);
+        FileCopyUtils.copy(multipartFile.getBytes(), saveFile);
+
+//        log.info("[ItemServiceImpl uploadImg] MultipartFile : {}", multipartFile);
+//        if (!multipartFile.isEmpty()) {
+//            Path filePath = Paths.get(savedImage, multipartFile.getOriginalFilename());
+//            log.info("[ItemServiceImpl uploadImg] filePath : {}", filePath);
+//
+//            File file = new File(String.valueOf(filePath));
+//            multipartFile.transferTo(file);
 
 //            try (OutputStream os = Files.newOutputStream(filePath)) {
 //                os.write(multipartFile.getBytes());
 //            } catch (IOException e) {
 //                throw new RuntimeException(e);
 //            }
-        }
-
+//        }
+    }
+    private String findExtension(String originalFilename) {
+        String[] split = originalFilename.split("\\.");
+        return "." + split[split.length - 1];
     }
 
     @Override
