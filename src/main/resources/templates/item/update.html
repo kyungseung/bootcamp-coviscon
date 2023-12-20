@@ -3,235 +3,240 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}" lang="ko">
 
-<div layout:fragment="content"><main>
-  <!-- ======= Breadcrumbs ======= -->
-  <section class="breadcrumbs">
-    <div class="container">
-      <ol>
-        <li><a href="index.html">Home</a></li>
-        <li>강의수정</li>
-      </ol>
-      <h2>내 강의 수정</h2>
-    </div>
-  </section><!-- End Breadcrumbs -->
-
-  <section class="inner-page d-flex align-items-center">
-    <div class="container">
-
-      <!-- join form -->
-      <div class="input-form-backgroud row">
-        <div class="input-form col-md-12 mx-auto">
-          <h4 class="fw-bolder text-center">강의수정</h4>
-          <p class="text-center">COVISCON에서 다양한 성장의 기회를 얻으세요</p>
-
-          <form class="validation-form" method="post" enctype="multipart/form-data" th:action="${@environment.getProperty('prefix.url')} + 'lecture/modify'">
-            <div class="mb-4">
-              <label for="title">강의제목</label>
-              <input type="hidden" id="itemId" name="itemId" th:value="${lectureDetail.id}" >
-              <input type="hidden" id="teacherName" name="teacherName" th:value="${member.nickName}"/>
-              <input type="hidden" id="teacherId" name="teacherId" th:value="${member.memberId}" />
-              <input type="text" class="form-control" id="title" name="title" th:value="${lectureDetail.title}" required>
-              <div class="invalid-feedback">
-              </div>
+<div layout:fragment="content">
+    <main>
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li>강의수정</li>
+                </ol>
+                <h2>내 강의 수정</h2>
             </div>
+        </section><!-- End Breadcrumbs -->
 
-            <div class="mb-4">
-              <label for="content">강의 설명</label>
-              <input type="text" class="form-control" id="content" name="content" th:value="${lectureDetail.content}" required>
-              <div class="invalid-feedback">
-                강의에 대한 설명을 작성해주세요.
-              </div>
+        <section class="inner-page d-flex align-items-center">
+            <div class="container">
+
+                <!-- join form -->
+                <div class="input-form-backgroud row">
+                    <div class="input-form col-md-12 mx-auto">
+                        <h4 class="fw-bolder text-center">강의수정</h4>
+                        <p class="text-center">COVISCON에서 다양한 성장의 기회를 얻으세요</p>
+
+                        <form class="validation-form" method="post" enctype="multipart/form-data"
+                              th:action="${@environment.getProperty('prefix.url')} + 'lecture/modify'">
+                            <div class="mb-4">
+                                <label for="title">강의제목</label>
+                                <input type="hidden" id="itemId" name="itemId" th:value="${lectureDetail.id}">
+                                <input type="hidden" id="teacherName" name="teacherName" th:value="${member.nickName}"/>
+                                <input type="hidden" id="teacherId" name="teacherId" th:value="${member.memberId}"/>
+                                <input type="text" class="form-control" id="title" name="title"
+                                       th:value="${lectureDetail.title}" required>
+                                <div class="invalid-feedback">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="content">강의 설명</label>
+                                <input type="text" class="form-control" id="content" name="content"
+                                       th:value="${lectureDetail.content}" required>
+                                <div class="invalid-feedback">
+                                    강의에 대한 설명을 작성해주세요.
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <select class="form-select" name="category" aria-label="category select">
+                                    <option selected>강의 카테고리를 선택하세요.</option>
+                                    <option value="SPRING">SPRING</option>
+                                    <option value="JPA">JPA</option>
+                                    <option value="AWS">AWS</option>
+                                    <option value="DOCKER">DOCKER</option>
+                                    <option value="KUBERNETES">KUBERNETES</option>
+                                    <option value="JENKINS">JENKINS</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="price">금액</label>
+                                <input type="number" class="form-control" id="price" name="price" required>
+                                <div class="invalid-feedback">
+                                    금액을 입력해주세요.
+                                </div>
+                            </div>
+
+
+                            <!--              <div class="upload-card">-->
+                            <!--                <div class="row">-->
+                            <!--                  <div class="col-md-12">-->
+                            <div class="mb-3">
+                                <label for="img" class="form-label">업로드할 썸네일 이미지를 선택해주세요</label>
+                                <input class="form-control" type="file" id="img" name="img">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="multipartInput" class="form-label">업로드할 동영상 파일을 선택해주세요</label>
+                                <input class="form-control" type="file" id="multipartInput" name="filename">
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <div class="js-action-btn">
+                                    <button class="btn btn-primary" id="multipartInputBtn" type="button">업로드 시작
+                                    </button>
+                                    <button class="btn btn-outline-primary" id="abortUploadBtn" type="button">업로드 중단
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <hr class="mb-4">
+                            <div class="d-grid gap-2">
+                                <div id="data-pre"></div>
+                                <button class="btn btn-lg btn-primary" id="submit-button" type="submit">강의 등록</button>
+                            </div>
+                        </form>
+
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+                                integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+                                crossorigin="anonymous"></script>
+                        <script>
+                            document.getElementById('multipartInputBtn').addEventListener('click', async () => {
+                                const multipartInput_fileInput = document.getElementById('multipartInput');
+                                // const targetId = document.getElementById('tutorialId').value;
+                                const file = multipartInput_fileInput.files[0];
+                                const fileName = file.name;
+                                const fileSize = file.size;
+
+                                // 3GB가 넘어가는 파일 업로드 제한
+                                if (fileSize > 3 * 1024 * 1024 * 1024) {
+                                    alert('The file you are trying to upload is too large. (under 3GB)');
+                                    return;
+                                }
+
+                                // localhost를 서버 IP로 변경하면 됨
+                                const url = `http://3.39.96.34:8000/item-service`;
+                                const prefix = "[[${prefix.tus}]]"
+                                console.log('prefix.tus : ' + prefix)
+
+                                try {
+                                    let start = new Date();
+                                    // 1. Spring Boot 서버로 멀티파트 업로드 시작 요청합니다.
+                                    let res = await axios.post(`${url}/initiate-upload`, {fileName: fileName});
+                                    const uploadId = res.data.uploadId;
+                                    const newFilename = res.data.fileName; // 서버에서 생성한 새로운 파일명
+                                    console.log(res);
+
+                                    // 세션 스토리지에 업로드 아이디와 파일 이름을 저장합니다.
+                                    sessionStorage.setItem('uploadId', uploadId);
+                                    sessionStorage.setItem('fileName', newFilename);
+
+                                    // 청크 사이즈와 파일 크기를 통해 청크 개수를 설정합니다.
+                                    const chunkSize = 10 * 1024 * 1024; // 10MB
+                                    const chunkCount = Math.floor(fileSize / chunkSize) + 1;
+                                    console.log(`chunkCount: ${chunkCount}`);
+
+                                    let multiUploadArray = [];
+
+                                    for (let uploadCount = 1; uploadCount < chunkCount + 1; uploadCount++) {
+                                        // 청크 크기에 맞게 파일을 자릅니다.
+                                        let start = (uploadCount - 1) * chunkSize;
+                                        let end = uploadCount * chunkSize;
+                                        let fileBlob = uploadCount < chunkCount ? file.slice(start, end) : file.slice(start);
+
+                                        // 3. Spring Boot 서버로 Part 업로드를 위한 미리 서명된 URL 발급 바듭니다.
+                                        let getSignedUrlRes = await axios.post(`${url}/upload-signed-url`, {
+                                            fileName: newFilename,
+                                            partNumber: uploadCount,
+                                            uploadId: uploadId
+                                        });
+
+                                        let preSignedUrl = getSignedUrlRes.data.preSignedUrl;
+                                        console.log(`preSignedUrl ${uploadCount} : ${preSignedUrl}`);
+                                        console.log(fileBlob);
+
+                                        // 3번에서 받은 미리 서명된 URL과 PUT을 사용해 AWS 서버에 청크를 업로드합니다,
+                                        let uploadChunck = await fetch(preSignedUrl, {
+                                            method: 'PUT',
+                                            body: fileBlob
+                                        });
+                                        console.log(uploadChunck);
+
+                                        // 응답 헤더에 있는 Etag와 파트 번호를 가지고 있습니다.
+                                        let EtagHeader = uploadChunck.headers.get('ETag').replaceAll('\"', '');
+                                        console.log(EtagHeader);
+                                        let uploadPartDetails = {
+                                            awsETag: EtagHeader,
+                                            partNumber: uploadCount
+                                        };
+
+                                        multiUploadArray.push(uploadPartDetails);
+                                    }
+
+                                    console.log(multiUploadArray);
+                                    // 6. 모든 청크 업로드가 완료되면 Spring Boot 서버로 업로드 완료 요청을 보냅니다.
+                                    // 업로드 아이디 뿐만 아니라 이 때 Part 번호와 이에 해당하는 Etag를 가진 'parts'를 같이 보냅니다.
+                                    const completeUpload = await axios.post(`${url}/complete-upload`, {
+                                        fileName: newFilename,
+                                        parts: multiUploadArray,
+                                        uploadId: uploadId
+                                    });
+                                    let end = new Date();
+                                    console.log("파일 업로드 하는데 걸린 시간 : " + (end - start) + "ms")
+                                    console.log(completeUpload.data, ' 업로드 완료 응답값');
+                                    console.log(completeUpload.fileName);
+
+                                    const fileNameFromResponse = completeUpload.data.name;
+
+                                    console.log("파일 이름 : " + fileNameFromResponse);
+
+                                    const dataDiv = document.querySelector('#data-pre');
+                                    dataDiv.innerHTML = '';
+                                    dataDiv.innerHTML += `<input type="hidden" id="subVideoName" name="subVideoName" value="${fileNameFromResponse}">`;
+
+                                    // dataDiv.innerHTML = `<input type="hidden" id="subVideoName" name="subVideoName" value="${completeUpload.fileName}">`;
+
+                                    // let fileNameToUse = completeUpload.fileName || completeUpload.data;
+                                    //
+                                    // dataDiv.innerHTML = `<input type="hidden" id="subVideoName" name="subVideoName" value="${fileNameToUse}">`;
+
+                                } catch (err) {
+                                    console.log(err, err.stack);
+                                }
+
+                            });
+
+                            document.getElementById('abortUploadBtn').addEventListener('click', () => {
+                                const uploadId = sessionStorage.getItem('uploadId');
+                                const fileName = sessionStorage.getItem('fileName');
+                                console.log({fileName: fileName, uploadId: uploadId});
+                                axios
+                                    .post(`/abort-upload`, {fileName: fileName, uploadId: uploadId})
+                                    .then((r) => console.log(r.data))
+                                    .catch((err) => console.error(err));
+                                clearInterval();
+                            });
+                        </script>
+
+
+                        <!--                  </div>-->
+                        <!--                </div>-->
+                        <!--              </div>-->
+
+                        <!--                        <hr class="mb-4">-->
+                        <!--                        <div class="d-grid gap-2">-->
+                        <!--                            <div id="data-pre"></div>-->
+                        <!--                            <button class="btn btn-lg btn-primary" id="submit-button" type="submit">강의 등록</button>-->
+                        <!--                        </div>-->
+                        <!--                        </form>-->
+                    </div>
+
+                </div>
             </div>
+        </section>
 
-            <div class="mb-4">
-              <select class="form-select" name="category" aria-label="category select">
-                <option selected>강의 카테고리를 선택하세요.</option>
-                <option value="SPRING">SPRING</option>
-                <option value="JPA">JPA</option>
-                <option value="AWS">AWS</option>
-                <option value="DOCKER">DOCKER</option>
-                <option value="KUBERNETES">KUBERNETES</option>
-                <option value="JENKINS">JENKINS</option>
-              </select>
-            </div>
-
-            <div class="mb-4">
-              <label for="price">금액</label>
-              <input type="number" class="form-control" id="price" name="price" required>
-              <div class="invalid-feedback">
-                금액을 입력해주세요.
-              </div>
-            </div>
-
-
-
-            <!--              <div class="upload-card">-->
-            <!--                <div class="row">-->
-            <!--                  <div class="col-md-12">-->
-            <div class="mb-3">
-              <label for="img" class="form-label">업로드할 썸네일 이미지를 선택해주세요</label>
-              <input class="form-control" type="file" id="img" name="img">
-            </div>
-
-            <div class="mb-3">
-              <label for="multipartInput" class="form-label">업로드할 동영상 파일을 선택해주세요</label>
-              <input class="form-control" type="file" id="multipartInput" name="filename">
-            </div>
-
-            <div class="d-grid gap-2">
-              <div class="js-action-btn">
-                <button class="btn btn-primary" id="multipartInputBtn" type="button">업로드 시작
-                </button>
-                <button class="btn btn-outline-primary" id="abortUploadBtn" type="button">업로드 중단
-                </button>
-              </div>
-            </div>
-
-
-            <hr class="mb-4">
-            <div class="d-grid gap-2">
-              <div id="data-pre"></div>
-              <button class="btn btn-lg btn-primary" id="submit-button" type="submit">강의 등록</button>
-            </div>
-          </form>
-
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
-                  integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
-                  crossorigin="anonymous"></script>
-          <script>
-            document.getElementById('multipartInputBtn').addEventListener('click', async () => {
-              const multipartInput_fileInput = document.getElementById('multipartInput');
-              // const targetId = document.getElementById('tutorialId').value;
-              const file = multipartInput_fileInput.files[0];
-              const fileName = file.name;
-              const fileSize = file.size;
-
-              // 3GB가 넘어가는 파일 업로드 제한
-              if (fileSize > 3 * 1024 * 1024 * 1024) {
-                alert('The file you are trying to upload is too large. (under 3GB)');
-                return;
-              }
-
-              // localhost를 서버 IP로 변경하면 됨
-              const url = `http://127.0.0.1:8000/item-service`;
-
-              try {
-                let start = new Date();
-                // 1. Spring Boot 서버로 멀티파트 업로드 시작 요청합니다.
-                let res = await axios.post(`${url}/initiate-upload`, {fileName: fileName});
-                const uploadId = res.data.uploadId;
-                const newFilename = res.data.fileName; // 서버에서 생성한 새로운 파일명
-                console.log(res);
-
-                // 세션 스토리지에 업로드 아이디와 파일 이름을 저장합니다.
-                sessionStorage.setItem('uploadId', uploadId);
-                sessionStorage.setItem('fileName', newFilename);
-
-                // 청크 사이즈와 파일 크기를 통해 청크 개수를 설정합니다.
-                const chunkSize = 10 * 1024 * 1024; // 10MB
-                const chunkCount = Math.floor(fileSize / chunkSize) + 1;
-                console.log(`chunkCount: ${chunkCount}`);
-
-                let multiUploadArray = [];
-
-                for (let uploadCount = 1; uploadCount < chunkCount + 1; uploadCount++) {
-                  // 청크 크기에 맞게 파일을 자릅니다.
-                  let start = (uploadCount - 1) * chunkSize;
-                  let end = uploadCount * chunkSize;
-                  let fileBlob = uploadCount < chunkCount ? file.slice(start, end) : file.slice(start);
-
-                  // 3. Spring Boot 서버로 Part 업로드를 위한 미리 서명된 URL 발급 바듭니다.
-                  let getSignedUrlRes = await axios.post(`${url}/upload-signed-url`, {
-                    fileName: newFilename,
-                    partNumber: uploadCount,
-                    uploadId: uploadId
-                  });
-
-                  let preSignedUrl = getSignedUrlRes.data.preSignedUrl;
-                  console.log(`preSignedUrl ${uploadCount} : ${preSignedUrl}`);
-                  console.log(fileBlob);
-
-                  // 3번에서 받은 미리 서명된 URL과 PUT을 사용해 AWS 서버에 청크를 업로드합니다,
-                  let uploadChunck = await fetch(preSignedUrl, {
-                    method: 'PUT',
-                    body: fileBlob
-                  });
-                  console.log(uploadChunck);
-
-                  // 응답 헤더에 있는 Etag와 파트 번호를 가지고 있습니다.
-                  let EtagHeader = uploadChunck.headers.get('ETag').replaceAll('\"', '');
-                  console.log(EtagHeader);
-                  let uploadPartDetails = {
-                    awsETag: EtagHeader,
-                    partNumber: uploadCount
-                  };
-
-                  multiUploadArray.push(uploadPartDetails);
-                }
-
-                console.log(multiUploadArray);
-                // 6. 모든 청크 업로드가 완료되면 Spring Boot 서버로 업로드 완료 요청을 보냅니다.
-                // 업로드 아이디 뿐만 아니라 이 때 Part 번호와 이에 해당하는 Etag를 가진 'parts'를 같이 보냅니다.
-                const completeUpload = await axios.post(`${url}/complete-upload`, {
-                  fileName: newFilename,
-                  parts: multiUploadArray,
-                  uploadId: uploadId
-                });
-                let end = new Date();
-                console.log("파일 업로드 하는데 걸린 시간 : " + (end - start) + "ms")
-                console.log(completeUpload.data, ' 업로드 완료 응답값');
-                console.log(completeUpload.fileName);
-
-                const fileNameFromResponse = completeUpload.data.name;
-
-                console.log("파일 이름 : " + fileNameFromResponse);
-
-                const dataDiv = document.querySelector('#data-pre');
-                dataDiv.innerHTML = '';
-                dataDiv.innerHTML += `<input type="hidden" id="subVideoName" name="subVideoName" value="${fileNameFromResponse}">`;
-
-                // dataDiv.innerHTML = `<input type="hidden" id="subVideoName" name="subVideoName" value="${completeUpload.fileName}">`;
-
-                // let fileNameToUse = completeUpload.fileName || completeUpload.data;
-                //
-                // dataDiv.innerHTML = `<input type="hidden" id="subVideoName" name="subVideoName" value="${fileNameToUse}">`;
-
-              } catch (err) {
-                console.log(err, err.stack);
-              }
-
-            });
-
-            document.getElementById('abortUploadBtn').addEventListener('click', () => {
-              const uploadId = sessionStorage.getItem('uploadId');
-              const fileName = sessionStorage.getItem('fileName');
-              console.log({fileName: fileName, uploadId: uploadId});
-              axios
-                      .post(`/abort-upload`, {fileName: fileName, uploadId: uploadId})
-                      .then((r) => console.log(r.data))
-                      .catch((err) => console.error(err));
-              clearInterval();
-            });
-          </script>
-
-
-          <!--                  </div>-->
-          <!--                </div>-->
-          <!--              </div>-->
-
-          <!--                        <hr class="mb-4">-->
-          <!--                        <div class="d-grid gap-2">-->
-          <!--                            <div id="data-pre"></div>-->
-          <!--                            <button class="btn btn-lg btn-primary" id="submit-button" type="submit">강의 등록</button>-->
-          <!--                        </div>-->
-          <!--                        </form>-->
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-</main><!-- End #main -->
+    </main><!-- End #main -->
 </div>
 
 </html>
