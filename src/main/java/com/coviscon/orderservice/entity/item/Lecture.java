@@ -1,5 +1,6 @@
 package com.coviscon.orderservice.entity.item;
 
+import com.coviscon.orderservice.entity.post.Qna;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -35,46 +36,12 @@ public class Lecture extends Item {
 
 //    private String orderCode; // UUID
 
+
     @Builder.Default
     @OneToMany(mappedBy = "lecture", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Video> videos = new ArrayList<>();
 
-
-    // == 생성 메서드 ==
-//    public static Lecture createLecture(RequestCreateLecture requestCreateLecture) {
-//        Lecture lecture = Lecture.builder()
-//                .content(requestCreateLecture.getContent())
-//                .price(requestCreateLecture.getPrice())
-//                .teacherId(requestCreateLecture.getTeacherId())
-//                .teacherName(requestCreateLecture.getTeacherName())
-//                .build();
-//        lecture.setTitle(requestCreateLecture.getTitle());
-//        lecture.setCategory(requestCreateLecture.getCategory());
-//
-//        return lecture;
-//    }
-
-    // == update ==
-//    public void updateLecture(RequestCreateLecture requestCreateLecture) {
-//        this.setTitle(requestCreateLecture.getTitle());
-//        this.setCategory(getCategory());
-//        this.price = requestCreateLecture.getPrice();
-//        this.teacherName = requestCreateLecture.getTeacherName();
-//        this.content = requestCreateLecture.getContent();
-//    }
-
-    /** 테스트용 **/
-    public static Lecture addLecture(Long id, String title, String content, int price, Category category, String teacherName) {
-        // 파일 업로드 추가될 시 파라미터 늘어날 예정
-        Lecture lecture = Lecture.builder()
-                .content(content)
-                .price(price)
-                .teacherName(teacherName)
-                .build();
-        lecture.setTitle(title);
-        lecture.setCategory(category);
-        lecture.setId(id);
-
-        return lecture;
-    }
+    @Builder.Default
+    @OneToMany(mappedBy = "lecture")
+    private List<Qna> qnas = new ArrayList<>();
 }

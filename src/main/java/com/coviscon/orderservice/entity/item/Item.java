@@ -1,7 +1,6 @@
 package com.coviscon.orderservice.entity.item;
 
 
-import com.coviscon.orderservice.entity.OrderStatus;
 import com.coviscon.orderservice.entity.auditing.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -25,6 +24,7 @@ public abstract class Item extends BaseTimeEntity {
     @Column(nullable = false)
     private String title; // 강의, 책 제목
 
+//    @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean isDelete; // item 삭제 여부
 

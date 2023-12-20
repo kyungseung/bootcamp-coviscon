@@ -2,7 +2,7 @@ package com.coviscon.orderservice.service.impl;
 
 import com.coviscon.orderservice.dto.MemberResponseDto;
 import com.coviscon.orderservice.dto.ResponseCartDetail;
-import com.coviscon.orderservice.entity.item.Cart;
+import com.coviscon.orderservice.entity.Cart;
 import com.coviscon.orderservice.entity.item.Lecture;
 import com.coviscon.orderservice.exception.CustomException;
 import com.coviscon.orderservice.exception.ErrorCode;
@@ -15,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 

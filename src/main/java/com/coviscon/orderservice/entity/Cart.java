@@ -1,9 +1,9 @@
-package com.coviscon.orderservice.entity.item;
+package com.coviscon.orderservice.entity;
 
-import com.coviscon.orderservice.entity.Order;
-import com.coviscon.orderservice.entity.OrderStatus;
 import com.coviscon.orderservice.entity.auditing.BaseTimeEntity;
 import com.coviscon.orderservice.dto.MemberResponseDto;
+import com.coviscon.orderservice.entity.item.Category;
+import com.coviscon.orderservice.entity.item.Lecture;
 import lombok.*;
 
 import javax.persistence.*;

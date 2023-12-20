@@ -1,6 +1,6 @@
 package com.coviscon.orderservice.repository;
 
-import com.coviscon.orderservice.entity.item.Cart;
+import com.coviscon.orderservice.entity.Cart;
 import com.coviscon.orderservice.repository.custom.CartRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 

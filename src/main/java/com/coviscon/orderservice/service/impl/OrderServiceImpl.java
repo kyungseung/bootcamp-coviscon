@@ -4,7 +4,7 @@ import com.coviscon.orderservice.constant.Encrypt;
 import com.coviscon.orderservice.dto.*;
 import com.coviscon.orderservice.entity.Order;
 import com.coviscon.orderservice.entity.OrderStatus;
-import com.coviscon.orderservice.entity.item.Cart;
+import com.coviscon.orderservice.entity.Cart;
 import com.coviscon.orderservice.exception.CustomException;
 import com.coviscon.orderservice.exception.ErrorCode;
 import com.coviscon.orderservice.repository.CartRepository;
@@ -17,7 +17,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

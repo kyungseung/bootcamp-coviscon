@@ -1,6 +1,6 @@
 package com.coviscon.orderservice.dto;
 
-import com.coviscon.orderservice.entity.item.Cart;
+import com.coviscon.orderservice.entity.Cart;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 

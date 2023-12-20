@@ -34,38 +34,4 @@ public class Video extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Lecture lecture;
-
-    // == 생성 메서드 ==
-    /** 테스트용 **/
-//    public static Video createVideo(Lecture lecture) {
-//        return Video.builder()
-//                .realVideoName("realVideoName")
-//                .subVideoName("subVideoName")
-//                .thumbnailFileName("thumbnailFileName")
-//                .savedPath("savedPath")
-//                .size(1000)
-//                .lecture(lecture)
-//                .build();
-//    }
-
-    // == update ==
-//    public void updateVideo(RequestCreateLecture requestCreateLecture) {
-//        this.realVideoName = requestCreateLecture.getRealVideoName();
-//        this.subVideoName = requestCreateLecture.getSubVideoName();
-//        this.thumbnailFileName = requestCreateLecture.getThumbnailFileName();
-//        this.savedPath = requestCreateLecture.getSavedPath();
-//        this.size = requestCreateLecture.getSize();
-//    }
-
-    /** 동영상 업로드용 **/
-//    public static Video createNewVideo(RequestCreateLecture requestCreateLecture, Lecture lecture) {
-//        return Video.builder()
-//                .realVideoName(requestCreateLecture.getRealVideoName())
-//                .subVideoName(requestCreateLecture.getSubVideoName())
-//                .thumbnailFileName(requestCreateLecture.getThumbnailFileName())
-//                .savedPath(requestCreateLecture.getSavedPath())
-//                .size(requestCreateLecture.getSize())
-//                .lecture(lecture)
-//                .build();
-//    }
 }

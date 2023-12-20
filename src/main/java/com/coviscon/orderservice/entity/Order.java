@@ -2,12 +2,8 @@ package com.coviscon.orderservice.entity;
 
 import com.coviscon.orderservice.constant.Encrypt;
 import com.coviscon.orderservice.dto.MemberResponseDto;
-import com.coviscon.orderservice.dto.PaymentDto;
 import com.coviscon.orderservice.entity.auditing.BaseTimeEntity;
-import com.coviscon.orderservice.entity.item.Cart;
-import com.siot.IamportRestClient.response.Payment;
 import lombok.*;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
