@@ -248,6 +248,7 @@ public class ItemServiceImpl implements ItemService {
         video.updateVideo(requestCreateLecture);
     }
 
+    @Override
     public void uploadImg(MultipartFile multipartFile) {
         if (!multipartFile.isEmpty()) {
             Path filePath = Paths.get(savedImage, multipartFile.getOriginalFilename());
